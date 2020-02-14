@@ -1,13 +1,17 @@
-php:
-  preset: laravel
-  disabled:
-    - unused_use
-  finder:
-    not-name:
-      - index.php
-      - server.php
-js:
-  finder:
-    not-name:
-      - webpack.mix.js
-css: true
+preset: laravel
+
+disabled:
+  - no_unused_imports
+  - phpdoc_no_package
+  - function_declaration
+  - phpdoc_summary
+  - concat_without_spaces
+
+finder:
+  exclude:
+    - node_modules
+    - storage
+    - tests
+    - vendor
+  name: "*.php"
+  not-name: "*.blade.php"
