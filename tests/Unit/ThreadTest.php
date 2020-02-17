@@ -10,12 +10,33 @@ class ThreadTest extends TestCase
 {
     use DatabaseMigrations;
 
-    /** @test */
-    function it_has_valid_path()
-    {
-        /** @var Thread $thread */
-        $thread = factory('App\Thread')->create();
+    /**
+     * @var Thread
+     */
+    protected $thread;
 
-        $this->assertEquals('/threads/1', $thread->path());
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->thread = factory('App\Thread')->create();
+    }
+
+    /** @test */
+    function thread_has_valid_path()
+    {
+        $this->assertEquals('/threads/1', $this->thread->path());
+    }
+
+    /** @test */
+    function thread_has_replies()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->thread->replies);
+    }
+
+    /** @test */
+    function thread_has_a_creator()
+    {
+        $this->assertInstanceOf('App\User', $this->thread->creator);
     }
 }
