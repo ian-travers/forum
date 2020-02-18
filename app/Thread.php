@@ -29,6 +29,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Thread extends Model
 {
+    protected $guarded = [];
+
     public function path(): string
     {
         return '/threads/' . $this->id;
