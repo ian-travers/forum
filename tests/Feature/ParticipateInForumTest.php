@@ -39,7 +39,7 @@ class ParticipateInForumTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $this->be(create(User::class));
+        $this->signIn(create(User::class));
 
         $reply = make(Reply::class);
 
