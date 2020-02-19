@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int $id
  * @property int $user_id
+ * @property int $channel_id
  * @property string $title
  * @property string $body
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Channel $channel
  * @property-read \App\User $creator
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Reply[] $replies
  * @property-read int|null $replies_count
@@ -20,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereChannelId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereTitle($value)
