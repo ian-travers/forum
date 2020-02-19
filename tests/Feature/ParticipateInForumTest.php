@@ -21,7 +21,7 @@ class ParticipateInForumTest extends TestCase
     {
         parent::setUp();
 
-        $this->thread = factory(Thread::class)->create();
+        $this->thread = create(Thread::class);
     }
 
     /** @test */
@@ -39,9 +39,9 @@ class ParticipateInForumTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $this->be(factory(User::class)->create());
+        $this->be(create(User::class));
 
-        $reply = factory(Reply::class)->make();
+        $reply = make(Reply::class);
 
         $this->post($this->thread->path() . '/replies', $reply->toArray());
 

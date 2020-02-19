@@ -20,7 +20,7 @@ class ReadThreadsTest extends TestCase
     {
         parent::setUp();
 
-        $this->thread = factory(Thread::class)->create();
+        $this->thread = create(Thread::class);
     }
 
     /** @test */
@@ -40,7 +40,9 @@ class ReadThreadsTest extends TestCase
     /** @test */
     function user_can_read_replies_that_associated_this_a_thread()
     {
-        $reply = factory(Reply::class)->create(['thread_id' => $this->thread->id]);
+        $reply = create(Reply::class, [
+            'thread_id' => $this->thread->id
+        ]);
 
         $this->get($this->thread->path())
             ->assertSee($reply->owner->name)
