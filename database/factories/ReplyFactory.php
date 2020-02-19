@@ -3,15 +3,17 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Reply;
+use App\Thread;
+use App\User;
 use Faker\Generator as Faker;
 
 $factory->define(Reply::class, function (Faker $faker) {
     return [
         'thread_id' => function() {
-            return factory('App\Thread')->create()->id;
+            return factory(Thread::class)->create()->id;
         },
         'user_id' => function() {
-            return factory('App\User')->create()->id;
+            return factory(User::class)->create()->id;
         },
         'body' => $faker->paragraph(1),
     ];
