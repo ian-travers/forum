@@ -4,33 +4,10 @@ namespace App\Filters;
 
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 
-class ThreadFilters
+class ThreadFilters extends Filters
 {
-    private $request;
-
-    /**
-     * @var Builder
-     */
-    protected $builder;
-
-    public function __construct(Request $request)
-    {
-
-        $this->request = $request;
-    }
-
-    public function apply(Builder $builder)
-    {
-        $this->builder = $builder;
-
-        if ($this->request->has('by')) {
-            $this->by($this->request->query('by'));
-        }
-
-        return $builder;
-    }
+    protected $filters = ['by'];
 
     protected function by(string $username): Builder
     {
