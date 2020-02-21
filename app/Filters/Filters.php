@@ -17,7 +17,6 @@ abstract class Filters
 
     public function __construct(Request $request)
     {
-
         $this->request = $request;
     }
 
@@ -26,8 +25,9 @@ abstract class Filters
         $this->builder = $builder;
 
         foreach ($this->getFilters() as $filter => $value) {
-
-            if (!$this->hasFilter($filter)) return;
+            if (!$this->hasFilter($filter)) {
+                return;
+            }
 
             $this->$filter($value);
         }
