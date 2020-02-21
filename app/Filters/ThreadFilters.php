@@ -10,6 +10,11 @@ class ThreadFilters
 {
     private $request;
 
+    /**
+     * @var Builder
+     */
+    protected $builder;
+
     public function __construct(Request $request)
     {
 
@@ -18,10 +23,19 @@ class ThreadFilters
 
     public function apply(Builder $builder)
     {
-        if (!$username = $this->request->query('by')) return $builder;
+        $this->builder = $builder;
 
+        if ($this->request->has('by')) {
+            $this->by($this->request->query('by'));
+        }
+
+        return $builder;
+    }
+
+    protected function by(string $username): Builder
+    {
         $user = User::where('name', $username)->firstOrFail();
 
-        return $builder->where('user_id', $user->id);
+        return $this->builder->where('user_id', $user->id);
     }
 }
