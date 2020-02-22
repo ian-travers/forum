@@ -13,9 +13,15 @@
                         @php /* @var App\Thread $thread */ @endphp
                         @foreach($threads as $thread)
                             <article>
-                                <h4>
-                                    <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
-                                </h4>
+                                <div class="d-flex justify-content-between">
+                                    <h4>
+                                        <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
+                                    </h4>
+                                    <a href="{{ $thread->path() }}">
+                                        {{ $thread->replies_count }}
+                                        {{ \Illuminate\Support\Str::plural('comment', $thread->replies_count) }}
+                                    </a>
+                                </div>
                                 <div>{{ $thread->body }}</div>
                             </article>
                             <hr>
