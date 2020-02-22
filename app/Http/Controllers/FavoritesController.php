@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Favorite;
 use App\Reply;
 
 class FavoritesController extends Controller
@@ -14,10 +13,6 @@ class FavoritesController extends Controller
 
     public function store(Reply $reply)
     {
-        Favorite::create([
-            'user_id' => auth()->id(),
-            'favorited_id' => $reply->id,
-            'favorited_type' => get_class($reply),
-        ]);
+        $reply->favorites()->create(['user_id' => auth()->id()]);
     }
 }
