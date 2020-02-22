@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $body
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Favorite[] $favorites
+ * @property-read int|null $favorites_count
  * @property-read \App\User $owner
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply newQuery()
@@ -32,5 +34,10 @@ class Reply extends Model
     public function owner()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function favorites()
+    {
+        return $this->morphMany(Favorite::class, 'favorited');
     }
 }
