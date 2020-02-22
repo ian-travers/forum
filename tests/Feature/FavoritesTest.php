@@ -35,7 +35,7 @@ class FavoritesTest extends TestCase
     /** @test */
     function authenticated_user_may_favorite_a_reply_only_once()
     {
-        $this->withoutExceptionHandling();
+//        $this->withoutExceptionHandling();
 
         $this->signIn();
 
