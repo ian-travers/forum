@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Filters\ThreadFilters;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -35,6 +36,15 @@ use Illuminate\Database\Eloquent\Model;
 class Thread extends Model
 {
     protected $guarded = [];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('repliesCount', function (Builder $builder) {
+            $builder->withCount('replies');
+        });
+    }
 
     public function path(): string
     {

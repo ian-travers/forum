@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
@@ -15,35 +15,37 @@
                         {{ $thread->body }}
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="row justify-content-center">
-            <div class="col-md-8">
 
                 @foreach($thread->replies as $reply)
                     @include('threads.reply')
                 @endforeach
-            </div>
-        </div>
 
-        @if(auth()->check())
-            <div class="row justify-content-center">
-                <div class="col-md-8 mt-3">
+                @if(auth()->check())
                     <form action="{{ $thread->path() . '/replies' }}" method="post">
 
                         @csrf
-                        <div class="form-group">
+                        <div class="form-group mt-3">
                             <textarea name="body" id="body" class="form-control" rows="5"
                                       placeholder="Have something to say?"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Post</button>
                     </form>
+
+                @else
+                    <p class="text-center mt-3">Please <a href="{{ route('login') }}">sign in</a> to participate to this
+                        discussion.</p>
+                @endif
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                       <p>
+                           This thread was published {{ $thread->created_at->diffForHumans() }} by
+                           <a href="#">{{ $thread->creator->name }}</a>, and currently has {{ $thread->replies_count }} {{ \Illuminate\Support\Str::plural('comment', $thread->replies_count) }}.
+                       </p>
+                    </div>
                 </div>
             </div>
-
-        @else
-            <p class="text-center mt-3">Please <a href="{{ route('login') }}">sign in</a> to participate to this discussion.</p>
-        @endif
+        </div>
     </div>
 @endsection
