@@ -14,8 +14,8 @@
 
                     @csrf
                     <button type="submit" class="btn btn-sm btn-secondary" {{ $reply->isFavorited() ? 'disabled' : '' }}>
-                        <span class="badge badge-light badge-pill">{{ $reply->favorites()->count() }}</span>
-                        {{ \Illuminate\Support\Str::plural('Favorite', $reply->favorites()->count()) }}
+                        <span class="badge badge-light badge-pill">{{ $reply->favorites_count }}</span>
+                        {{ \Illuminate\Support\Str::plural('Favorite', $reply->favorites_count) }}
                     </button>
                 </form>
             </div>

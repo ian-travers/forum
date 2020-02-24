@@ -16,7 +16,10 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer(['layouts.app', 'threads.create'], function (View $view) {
-            $channels = Channel::all();
+
+            $channels = \Cache::rememberForever('channels', function () {
+                return Channel::all();
+            });
 
             return $view->with(compact('channels'));
         });
