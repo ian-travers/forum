@@ -48,7 +48,5 @@ class Reply extends Model
         if (!$this->favorites()->where($attributes)->exists()) {
             return $this->favorites()->create($attributes);
         }
-
-        return null;
     }
 }
