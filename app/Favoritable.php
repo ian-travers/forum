@@ -20,7 +20,7 @@ trait Favoritable
 
     public function isFavorited(): bool
     {
-        return !! $this->favorites->where('user_id', auth()->id())->count();
+        return (bool) $this->favorites->where('user_id', auth()->id())->count();
     }
 
     public function getFavoritesCountAttribute()
