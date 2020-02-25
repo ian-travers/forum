@@ -5,7 +5,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">
                         <a href="{{ route('profile', $thread->creator) }}" class="">{{ $thread->creator->name }} </a> posted:
@@ -41,7 +41,7 @@
                         discussion.</p>
                 @endif
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="card">
                     <div class="card-body">
                        <p>
