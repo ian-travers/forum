@@ -47,7 +47,7 @@ class Thread extends Model
             $builder->withCount('replies');
         });
 
-        static::deleting(function (Thread $thread){
+        static::deleting(function (self $thread) {
             $thread->replies()->delete();
         });
     }
