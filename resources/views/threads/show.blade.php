@@ -8,8 +8,24 @@
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">
-                        <a href="{{ route('profile', $thread->creator) }}" class="">{{ $thread->creator->name }} </a> posted:
-                        {{ $thread->title }}
+                        <div class="d-flex align-items-baseline justify-content-between">
+                            <div>
+                                <a href="{{ route('profile', $thread->creator) }}"
+                                   class="">{{ $thread->creator->name }} </a> posted:
+                                {{ $thread->title }}
+                            </div>
+
+                            @if(auth()->check())
+                                <form action="{{ $thread->path() }}" method="post">
+
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-link">Delete Thread</button>
+                                </form>
+
+                            @endif
+                        </div>
+
                     </div>
                     <div class="card-body">
                         {{ $thread->body }}
@@ -44,10 +60,13 @@
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-body">
-                       <p>
-                           This thread was published {{ $thread->created_at->diffForHumans() }} by
-                           <a href="{{ route('profile', $thread->creator) }}">{{ $thread->creator->name }}</a>, and currently has {{ $thread->replies_count }} {{ \Illuminate\Support\Str::plural('comment', $thread->replies_count) }}.
-                       </p>
+                        <p>
+                            This thread was published {{ $thread->created_at->diffForHumans() }} by
+                            <a href="{{ route('profile', $thread->creator) }}">{{ $thread->creator->name }}</a>, and
+                            currently
+                            has {{ $thread->replies_count }} {{ \Illuminate\Support\Str::plural('comment', $thread->replies_count) }}
+                            .
+                        </p>
                     </div>
                 </div>
             </div>
