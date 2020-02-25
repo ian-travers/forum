@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Channel;
 use App\Filters\ThreadFilters;
 use App\Thread;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
 class ThreadsController extends Controller
@@ -48,7 +49,7 @@ class ThreadsController extends Controller
         return redirect($thread->path());
     }
 
-    public function show($channelId, Thread $thread)
+    public function show($channel, Thread $thread)
     {
         $replies = $thread->replies()->paginate(20);
 
@@ -65,9 +66,11 @@ class ThreadsController extends Controller
         //
     }
 
-    public function destroy(Thread $thread)
+    public function destroy($channel, Thread $thread)
     {
-        //
+        $thread->delete();
+
+        return response([], Response::HTTP_NO_CONTENT);
     }
 
     /**
