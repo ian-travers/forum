@@ -6,7 +6,7 @@
             <div class="col-md-10">
 
                 @php /* @var App\Thread $thread */ @endphp
-                @foreach($threads as $thread)
+                @forelse($threads as $thread)
                     <div class="card mb-3">
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
@@ -24,7 +24,10 @@
                         </div>
                     </div>
 
-                @endforeach
+                @empty
+                    <p>There is not relevant results at this time</p>
+
+                @endforelse
             </div>
         </div>
     </div>
