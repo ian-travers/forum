@@ -16,7 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-         Thread::class => ThreadPolicy::class,
+        Thread::class => ThreadPolicy::class,
     ];
 
     /**
@@ -29,7 +29,9 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::before(function (User $user) {
-            if ($user->name === 'Ian Travers') return true;
+            if ($user->name === 'Ian Travers') {
+                return true;
+            }
         });
     }
 }
