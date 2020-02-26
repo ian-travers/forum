@@ -6,9 +6,16 @@ trait RecordsActivity
 {
     protected static function bootRecordsActivity()
     {
-        static::created(function ($model) {
-            $model->recordActivity('created');
-        });
+        foreach (static::getActivitiesToRecord() as $event) {
+            static::$event(function ($model) use ($event) {
+                $model->recordActivity($event);
+            });
+        }
+    }
+
+    protected static function getActivitiesToRecord(): array
+    {
+        return ['created'];
     }
 
     protected function recordActivity(string $event)
