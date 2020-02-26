@@ -3,15 +3,14 @@
     /* @var \App\Activity $activity */
 @endphp
 
-<div class="card mb-3">
-    <div class="card-header">
-        <p>
-            {{ $userProfile->name }} replied to thread::
-            <a href="{{$activity->subject->thread->path()}}">{{ $activity->subject->thread->title }}</a>
-        </p>
-    </div>
-    <div class="card-body">
+@component('profiles.activities._activity')
+    @slot('heading')
+        {{ $userProfile->name }} replied to thread::
+        <a href="{{$activity->subject->thread->path()}}">{{ $activity->subject->thread->title }}</a>
+    @endslot
+
+    @slot('body')
         {{ $activity->subject->body }}
-    </div>
-</div>
+    @endslot
+@endcomponent
 
