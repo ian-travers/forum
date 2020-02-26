@@ -3,7 +3,7 @@
     /* @var \App\Activity $activity */
 @endphp
 
-<div class="card mt-3">
+<div class="card mb-3">
     <div class="card-header">
         <p>
             {{ $userProfile->name }} created thread::

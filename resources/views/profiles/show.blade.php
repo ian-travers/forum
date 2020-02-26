@@ -15,10 +15,13 @@
                     <small>since {{ $userProfile->created_at->format('d F, Y.') }}</small>
                 </p>
 
-                @foreach($activities as $activity)
-                    @include("profiles.activities.{$activity->type}")
+                @foreach($activities as $date => $activity)
+
+                    <h4 class="text-right">{{ $date }}</h4>
+                    @foreach($activity as $record)
+                        @include("profiles.activities.{$record->type}", ['activity' => $record])
+                    @endforeach
                 @endforeach
-                {{ $activities->links() }}
             </div>
         </div>
     </div>
