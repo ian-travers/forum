@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Favorite[] $favorites
  * @property-read int|null $favorites_count
  * @property-read \App\User $owner
+ * @property-read \App\Thread $thread
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply query()
