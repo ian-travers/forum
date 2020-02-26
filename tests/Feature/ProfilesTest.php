@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Thread;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\Response;
@@ -21,20 +20,5 @@ class ProfilesTest extends TestCase
         $this->get('/profiles/' . $user->name)
             ->assertStatus(Response::HTTP_OK)
             ->assertSee($user->name);
-    }
-
-    /** @test */
-    function profiles_displays_all_threads_created_by_associated_user()
-    {
-        $this->withoutExceptionHandling();
-        /** @var User $user */
-        $user = create(User::class);
-
-        /** @var Thread $thread */
-        $thread = create(Thread::class, ['user_id' => $user->id]);
-
-        $this->get('/profiles/' . $user->name)
-            ->assertSee($thread->title)
-            ->assertSee($thread->body);
     }
 }
