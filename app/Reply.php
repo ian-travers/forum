@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $body
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activity
+ * @property-read int|null $activity_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Favorite[] $favorites
  * @property-read int|null $favorites_count
  * @property-read \App\User $owner
@@ -33,10 +35,15 @@ class Reply extends Model
 
     protected $guarded = [];
 
-    protected $with = ['owner', 'favorites'];
+    protected $with = ['owner', 'favorites', 'thread'];
 
     public function owner()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function thread()
+    {
+        return $this->belongsTo(Thread::class);
     }
 }

@@ -1,4 +1,7 @@
-@php /* @var \App\User $userProfile */  @endphp
+@php
+    /* @var \App\User $userProfile */
+    /* @var \App\Activity $activity */
+@endphp
 
 @extends('layouts.app')
 
@@ -12,24 +15,10 @@
                     <small>since {{ $userProfile->created_at->format('d F, Y.') }}</small>
                 </p>
 
-                @foreach($threads as $thread)
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <div class="d-flex align-items-baseline justify-content-between">
-                                <h4>
-                                    <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
-                                </h4>
-                                <p>{{ $thread->created_at->diffForHumans() }}</p>
-                            </div>
-
-                        </div>
-                        <div class="card-body">
-                            {{ $thread->body }}
-                        </div>
-                    </div>
-
+                @foreach($activities as $activity)
+                    @include("profiles.activities.{$activity->type}")
                 @endforeach
-                {{ $threads->links() }}
+                {{ $activities->links() }}
             </div>
         </div>
     </div>

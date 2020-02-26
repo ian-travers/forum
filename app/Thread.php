@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $body
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activity
+ * @property-read int|null $activity_count
  * @property-read \App\Channel $channel
  * @property-read \App\User $creator
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Reply[] $replies

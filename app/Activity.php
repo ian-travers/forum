@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * \App\Activity
+ * App\Activity
  *
  * @property int $id
  * @property int $user_id
@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $subject
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Activity newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Activity newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Activity query()
