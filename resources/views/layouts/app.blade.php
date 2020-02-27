@@ -25,6 +25,8 @@
 
         @yield('content')
     </main>
+
+    <flash message="{{ session('flash') }}"></flash>
 </div>
 <!-- Scripts -->
 <script src="{{ mix('js/app.js', 'build') }}"></script>
