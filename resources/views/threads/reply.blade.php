@@ -13,7 +13,8 @@
                 <form action="/replies/{{ $reply->id }}/favorites" method="post">
 
                     @csrf
-                    <button type="submit" class="btn btn-sm btn-secondary" {{ $reply->isFavorited() ? 'disabled' : '' }}>
+                    <button type="submit"
+                            class="btn btn-sm btn-secondary" {{ $reply->isFavorited() ? 'disabled' : '' }}>
                         <span class="badge badge-light badge-pill">{{ $reply->favorites_count }}</span>
                         {{ \Illuminate\Support\Str::plural('Favorite', $reply->favorites_count) }}
                     </button>
@@ -25,5 +26,17 @@
     <div class="card-body">
         {{ $reply->body }}
     </div>
+
+    @can('update', $reply)
+        <div class="card-footer">
+            <form action="/replies/{{ $reply->id }}" method="post">
+
+                @csrf
+                @method('delete')
+                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+        </div>
+
+    @endcan
 </div>
 
