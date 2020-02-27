@@ -1,6 +1,6 @@
 @php /* @var App\Reply $reply */ @endphp
 
-<div class="card mt-3">
+<div id="reply-{{ $reply->id }}" class="card mt-3">
     <div class="card-header">
         <div class="d-flex justify-content-between">
             <div>
