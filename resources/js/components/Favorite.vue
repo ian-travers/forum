@@ -19,22 +19,30 @@
         computed: {
             classes() {
                 return ['btn btn-sm', this.isFavorited ? 'btn-primary' : 'btn-secondary'];
+            },
+
+            endpoint() {
+                return '/replies/' + this.reply.id + '/favorites';
             }
         },
 
         methods: {
             toggle() {
-                if (this.isFavorited) {
-                    axios.delete('/replies/' + this.reply.id + '/favorites');
+                this.isFavorited ? this.destroy() : this.create();
+            },
 
-                    this.isFavorited = false;
-                    this.favoritesCount--;
-                } else {
-                    axios.post('/replies/' + this.reply.id + '/favorites');
+            create() {
+                axios.post(this.endpoint);
 
-                    this.isFavorited = true;
-                    this.favoritesCount++;
-                }
+                this.isFavorited = true;
+                this.favoritesCount++;
+            },
+
+            destroy() {
+                axios.delete(this.endpoint);
+
+                this.isFavorited = false;
+                this.favoritesCount--;
             }
         }
     }
