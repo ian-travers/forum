@@ -11,7 +11,11 @@
                     said {{ $reply->created_at->diffForHumans() }}...
                 </div>
                 <div>
-                    <favorite :reply="{{ $reply }}"></favorite>
+
+                    @if(auth()->check())
+                        <favorite :reply="{{ $reply }}"></favorite>
+
+                    @endif
                 </div>
             </div>
 
