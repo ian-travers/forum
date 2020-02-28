@@ -4,6 +4,23 @@ namespace App;
 
 trait Favoritable
 {
+    protected static function bootFavoritable()
+    {
+        static::deleting(function ($model) {
+//            $model->favorites()->delete(); // this is only sql-query
+
+            /** below is a collection of models, then fire static::deleting for all activities
+             * @see \App\RecordsActivity::bootRecordsActivity()
+             */
+            $model->favorites->each->delete();
+        });
+    }
+
+    public function favorites()
+    {
+        return $this->morphMany(Favorite::class, 'favorited');
+    }
+
     public function favorite()
     {
         $attributes = ['user_id' => auth()->id()];
@@ -20,14 +37,9 @@ trait Favoritable
         $this->favorites()->where($attributes)->get()->each->delete();
     }
 
-    public function favorites()
-    {
-        return $this->morphMany(Favorite::class, 'favorited');
-    }
-
     public function isFavorited(): bool
     {
-        return (bool) $this->favorites->where('user_id', auth()->id())->count();
+        return (bool)$this->favorites->where('user_id', auth()->id())->count();
     }
 
     public function getIsFavoritedAttribute()
