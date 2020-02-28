@@ -72,7 +72,6 @@ class ParticipateInForumTest extends TestCase
 
         $this->signIn();
 
-//        dd($reply->id, auth()->id());
         $this
             ->delete('/replies/' . $reply->id)
             ->assertStatus(Response::HTTP_FORBIDDEN);
@@ -87,8 +86,38 @@ class ParticipateInForumTest extends TestCase
         $reply = create(Reply::class, ['user_id' => auth()->id()]);
 
         $this->delete('/replies/' . $reply->id)
-        ->assertStatus(Response::HTTP_FOUND);
+            ->assertStatus(Response::HTTP_FOUND);
 
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+    }
+
+    /** @test */
+    function unauthorized_users_can_not_update_replies()
+    {
+        /** @var Reply $reply */
+        $reply = create(Reply::class);
+
+        $this->patch('/replies/' . $reply->id)
+            ->assertRedirect('/login');
+
+        $this->signIn();
+
+        $this
+            ->patch('/replies/' . $reply->id)
+            ->assertStatus(Response::HTTP_FORBIDDEN);
+    }
+
+    /** @test */
+    function authorized_users_can_update_replies()
+    {
+        $this->signIn();
+
+        /** @var Reply $reply */
+        $reply = create(Reply::class, ['user_id' => auth()->id()]);
+
+        $updatedReply = 'Body has been changed';
+        $this->patch('/replies/' . $reply->id, ['body' => $updatedReply]);
+
+        $this->assertDatabaseHas('replies', ['id' => $reply->id, 'body' => $updatedReply]);
     }
 }
