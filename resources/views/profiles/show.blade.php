@@ -15,15 +15,18 @@
                     <small>since {{ $userProfile->created_at->format('d F, Y.') }}</small>
                 </p>
 
-                @foreach($activities as $date => $activity)
-
+                @forelse($activities as $date => $activity)
                     <h4 class="text-right">{{ $date }}</h4>
+
                     @foreach($activity as $record)
                         @if(view()->exists("profiles.activities.{$record->type}"))
                             @include("profiles.activities.{$record->type}", ['activity' => $record])
                         @endif
                     @endforeach
-                @endforeach
+                @empty
+                    <p class="lead">There is no activity for this user yet.</p>
+
+                @endforelse
             </div>
         </div>
     </div>
