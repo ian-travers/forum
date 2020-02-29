@@ -7,7 +7,9 @@
 window.Vue = require('vue');
 
 Vue.prototype.authorize = function (handler) {
-    return handler(window.App.user);
+    let user = window.App.user;
+
+    return user ? handler(user) : false;
 };
 
 require('./bootstrap');
