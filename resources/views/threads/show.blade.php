@@ -3,7 +3,7 @@
 @php /* @var App\Thread $thread */ @endphp
 
 @section('content')
-    <thread-view inline-template>
+    <thread-view :initial-replies-count="{{ $thread->replies_count }}" inline-template>
         <div class="container">
             <div class="row">
                 <div class="col-md-9">
@@ -33,12 +33,8 @@
                         </div>
                     </div>
 
-                    <replies :data="{{ $thread->replies }}"></replies>
+                    <replies :data="{{ $thread->replies }}" @removed="repliesCount--"></replies>
 
-                    {{--                @foreach($replies as $reply)--}}
-                    {{--                    @include('threads.reply')--}}
-                    {{--                @endforeach--}}
-                    {{----}}
                     {{--                <div class="mt-3">--}}
                     {{--                    {{ $replies->links() }}--}}
                     {{--                </div>--}}
@@ -65,9 +61,7 @@
                         <div class="card-body">
                             <p>
                                 This thread was published {{ $thread->created_at->diffForHumans() }} by
-                                <a href="{{ route('profile', $thread->creator) }}">{{ $thread->creator->name }}</a>, and
-                                currently
-                                has {{ $thread->replies_count }} {{ \Illuminate\Support\Str::plural('comment', $thread->replies_count) }}
+                                <a href="{{ route('profile', $thread->creator) }}">{{ $thread->creator->name }}</a>, and currently has <span v-text="repliesCount"></span> {{ \Illuminate\Support\Str::plural('comment', $thread->replies_count) }}
                                 .
                             </p>
                         </div>
