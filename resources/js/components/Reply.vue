@@ -6,12 +6,8 @@
                     <a :href="'/profile/' + data.owner.name" v-text="data.owner.name"></a>
                     said {{ data.created_at }}...
                 </div>
-                <div>
-
-<!--                    @if(auth()->check())-->
-<!--                    <favorite :reply="{{ $reply }}"></favorite>-->
-
-<!--                    @endif-->
+                <div v-if="signedIn">
+                    <favorite :reply="data"></favorite>
                 </div>
             </div>
 
@@ -53,6 +49,12 @@
             };
         },
 
+        computed: {
+            signedIn() {
+                return window.App.signedIn;
+            }
+        },
+
         methods: {
             update() {
                 axios.patch('/replies/' + this.data.id, {
@@ -68,10 +70,6 @@
                 axios.delete('/replies/' + this.data.id);
 
                 this.$emit('deleted', this.data.id);
-
-                $(this.$el).fadeOut(600, () => {
-                    flash('Your reply has been deleted.');
-                });
             }
         }
     }

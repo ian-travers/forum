@@ -29,6 +29,11 @@
     <flash message="{{ session('flash') }}"></flash>
 </div>
 <!-- Scripts -->
+<script>
+    window.App = {!! json_encode([
+        'signedIn' => auth()->check()
+    ]) !!}
+</script>
 <script src="{{ mix('js/app.js', 'build') }}"></script>
 </body>
 </html>
