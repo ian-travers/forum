@@ -10,8 +10,8 @@
                     <favorite :reply="data"></favorite>
                 </div>
             </div>
-
         </div>
+
         <div class="card-body">
             <div v-if="editing">
                 <div class="form-group">
@@ -23,13 +23,11 @@
             <div v-else v-text="body"></div>
         </div>
 
-<!--        @can('update', $reply)-->
-        <div class="card-footer">
+        <div class="card-footer" v-if="canUpdate">
             <button class="btn btn-sm btn-primary" @click="editing = true">Edit</button>
             <button class="btn btn-sm btn-danger" @click="destroy">Delete</button>
         </div>
 
-<!--        @endcan-->
     </div>
 </template>
 
@@ -52,6 +50,10 @@
         computed: {
             signedIn() {
                 return window.App.signedIn;
+            },
+
+            canUpdate() {
+                return this.data.user_id == window.App.user.id
             }
         },
 
