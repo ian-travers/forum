@@ -4,7 +4,7 @@
             <div class="d-flex justify-content-between">
                 <div>
                     <a :href="'/profile/' + data.owner.name" v-text="data.owner.name"></a>
-                    said {{ data.created_at }}...
+                    said <span v-text="ago"></span>...
                 </div>
                 <div v-if="signedIn">
                     <favorite :reply="data"></favorite>
@@ -33,6 +33,7 @@
 
 <script>
     import Favorite from "./Favorite";
+    import moment from "moment";
 
     export default {
         props: ['data'],
@@ -54,6 +55,10 @@
 
             canUpdate() {
                 return this.authorize(user => this.data.user_id == user.id);
+            },
+
+            ago() {
+                return moment(this.data.created_at).fromNow();
             }
         },
 
