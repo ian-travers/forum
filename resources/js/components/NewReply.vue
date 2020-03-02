@@ -15,10 +15,11 @@
 
 <script>
     export default {
+        props: ['endpoint'],
+
         data() {
             return {
-                body: '',
-                endpoint: '/threads/et/53/replies'
+                body: ''
             }
         },
 
