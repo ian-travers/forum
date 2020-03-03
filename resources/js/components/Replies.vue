@@ -10,14 +10,16 @@
 <script>
     import Reply from "./Reply";
     import NewReply from "./NewReply";
+    import collection from "../mixins/Collection";
 
     export default {
         components: {Reply, NewReply},
 
+        mixins: [collection],
+
         data() {
             return {
                 dataSet: false,
-                items: [],
                 endpoint: location.pathname + '/replies'
             }
         },
@@ -40,20 +42,6 @@
                 this.dataSet = data;
                 this.items = data.data;
             },
-
-            add(reply) {
-                this.items.push(reply);
-
-                this.$emit('added');
-            },
-
-            remove(index) {
-                this.items.splice(index, 1);
-
-                this.$emit('removed');
-
-                flash('Reply was deleted.');
-            }
-        }
+         }
     }
 </script>
