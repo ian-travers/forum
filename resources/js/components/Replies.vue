@@ -3,6 +3,9 @@
         <div v-for="(reply, index) in items" :key="reply.id">
             <reply :data="reply" @deleted="remove(index)"></reply>
         </div>
+
+        <paginator :dataSet="dataSet"></paginator>
+
         <new-reply :endpoint="endpoint" @created="add"></new-reply>
     </div>
 </template>
