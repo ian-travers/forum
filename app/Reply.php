@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply whereUserId($value)
  * @mixin \Eloquent
+ * @property-read mixed $is_favorited
  */
 class Reply extends Model
 {

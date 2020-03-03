@@ -23,6 +23,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activity
+ * @property-read int|null $activity_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $favorited
  */
 class Favorite extends Model
 {
