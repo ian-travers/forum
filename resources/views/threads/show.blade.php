@@ -33,16 +33,7 @@
                         </div>
                     </div>
 
-                    <replies
-                        :data="{{ $thread->replies }}"
-                        @added="repliesCount++"
-                        @removed="repliesCount--">
-                    </replies>
-
-                    {{--                <div class="mt-3">--}}
-                    {{--                    {{ $replies->links() }}--}}
-                    {{--                </div>--}}
-
+                    <replies @added="repliesCount++" @removed="repliesCount--"></replies>
                 </div>
                 <div class="col-md-3">
                     <div class="card">

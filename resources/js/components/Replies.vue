@@ -12,18 +12,35 @@
     import NewReply from "./NewReply";
 
     export default {
-        props: ['data'],
-
         components: {Reply, NewReply},
 
         data() {
             return {
-                items: this.data,
+                dataSet: false,
+                items: [],
                 endpoint: location.pathname + '/replies'
             }
         },
 
+        created() {
+            this.fetch();
+        },
+
         methods: {
+            fetch() {
+                axios.get(this.url())
+                    .then(this.refresh);
+            },
+
+            url() {
+                return `${location.pathname}/replies`;
+            },
+
+            refresh({data}) {
+                this.dataSet = data;
+                this.items = data.data;
+            },
+
             add(reply) {
                 this.items.push(reply);
 
