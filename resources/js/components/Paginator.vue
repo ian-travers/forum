@@ -1,12 +1,12 @@
 <template>
     <ul class="pagination mt-3" v-if="shouldPaginate">
         <li class="page-item" v-if="prevUrl">
-            <a class="page-link" href="#" aria-label="Previous" rel="prev">
+            <a class="page-link" href="#" aria-label="Previous" rel="prev" @click.prevent="page--">
                 <span aria-hidden="true">&laquo; Previous</span>
             </a>
         </li>
         <li class="page-item" v-if="nextUrl">
-            <a class="page-link" href="#" aria-label="Next" rel="next">
+            <a class="page-link" href="#" aria-label="Next" rel="next" @click.prevent="page++">
                 <span aria-hidden="true">Next &raquo;</span>
             </a>
         </li>
@@ -30,12 +30,22 @@
                 this.page = this.dataSet.current_page;
                 this.prevUrl = this.dataSet.prev_page_url;
                 this.nextUrl = this.dataSet.next_page_url;
+            },
+
+            page() {
+                this.broadcast();
             }
         },
 
         computed: {
             shouldPaginate() {
                 return !! this.prevUrl || !! this.nextUrl;
+            }
+        },
+
+        methods: {
+            broadcast() {
+                this.$emit('changed', this.page);
             }
         }
     }
