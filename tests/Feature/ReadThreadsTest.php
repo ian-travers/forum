@@ -40,18 +40,6 @@ class ReadThreadsTest extends TestCase
     }
 
     /** @test */
-    function user_can_read_replies_that_associated_this_a_thread()
-    {
-        $reply = create(Reply::class, [
-            'thread_id' => $this->thread->id
-        ]);
-
-        $this->get($this->thread->path())
-            ->assertSee($reply->owner->name)
-            ->assertSee($reply->body);
-    }
-
-    /** @test */
     function user_can_filter_threads_according_to_a_channel()
     {
         $this->withoutExceptionHandling();

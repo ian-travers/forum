@@ -42,12 +42,12 @@ class ParticipateInForumTest extends TestCase
 
         $this->signIn(create(User::class));
 
+        /** @var Reply $reply */
         $reply = make(Reply::class);
 
         $this->post($this->thread->path() . '/replies', $reply->toArray());
 
-        $this->get($this->thread->path())
-            ->assertSee($reply->body);
+        $this->assertDatabaseHas('replies', ['body' => $reply->body]);
     }
 
     /** @test */
