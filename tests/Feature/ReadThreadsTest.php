@@ -87,12 +87,23 @@ class ReadThreadsTest extends TestCase
     }
 
     /** @test */
+    function user_can_filter_all_unanswered_threads()
+    {
+        $thread = create(Thread::class);
+        create(Reply::class, ['thread_id' => $thread->id]);
+
+        $response = $this->getJson('/threads?unanswered=1')->json();
+
+        $this->assertCount(1, $response);
+    }
+
+    /** @test */
     function user_can_request_all_replies_for_a_given_thread()
     {
         create(Reply::class, ['thread_id' => $this->thread->id], 2);
 
         $response = $this->getJson($this->thread->path() . '/replies')->json();
-//        dd($response);
+
         $this->assertCount(1, $response['data']);
         $this->assertEquals(2, $response['total']);
     }
