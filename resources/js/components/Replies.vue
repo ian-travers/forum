@@ -21,9 +21,7 @@
         mixins: [collection],
 
         data() {
-            return {
-                dataSet: false,
-            }
+            return {dataSet: false}
         },
 
         created() {
@@ -50,6 +48,6 @@
                 this.dataSet = data;
                 this.items = data.data;
             },
-         }
+        }
     }
 </script>
