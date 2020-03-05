@@ -13,8 +13,6 @@ class SubscribeToThreadsTest extends TestCase
     /** @test */
     function user_can_subscribe_to_threads()
     {
-        $this->withoutExceptionHandling();
-
         $this->signIn();
 
         /** @var Thread $thread */
@@ -23,15 +21,6 @@ class SubscribeToThreadsTest extends TestCase
         $this->post($thread->path() . '/subscriptions');
 
         $this->assertCount(1, $thread->subscriptions);
-
-        $this->assertCount(0, auth()->user()->notifications);
-
-        $thread->addReply([
-            'user_id' => auth()->id(),
-            'body' => 'Some reply here',
-        ]);
-
-        $this->assertCount(1, auth()->user()->fresh()->notifications);
     }
 
     /** @test */

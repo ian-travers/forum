@@ -80,11 +80,14 @@ class Thread extends Model
 
     public function addReply($reply)
     {
+        /** @var Reply $reply */
         $reply = $this->replies()->create($reply);
 
         // Prepare notifications for all subscribed users
         foreach ($this->subscriptions as $subscription) {
-            $subscription->user->notify(new ThreadWasUpdated($this, $reply));
+            if ($subscription->user_id != $reply->user_id) {
+                $subscription->user->notify(new ThreadWasUpdated($this, $reply));
+            }
         }
 
         return $reply;
@@ -105,6 +108,8 @@ class Thread extends Model
         $this->subscriptions()->create([
             'user_id' => $userId ?: auth()->id(),
         ]);
+
+        return $this;
     }
 
     public function unsubscribe($userId = null)
