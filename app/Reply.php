@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $activity_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Favorite[] $favorites
  * @property-read int|null $favorites_count
+ * @property-read mixed $is_favorited
  * @property-read \App\User $owner
  * @property-read \App\Thread $thread
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply newModelQuery()
@@ -29,7 +30,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Reply whereUserId($value)
  * @mixin \Eloquent
- * @property-read mixed $is_favorited
  */
 class Reply extends Model
 {

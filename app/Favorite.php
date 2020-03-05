@@ -13,6 +13,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $favorited_type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activity
+ * @property-read int|null $activity_count
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $favorited
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite query()
@@ -23,9 +26,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Favorite whereUserId($value)
  * @mixin \Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activity
- * @property-read int|null $activity_count
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $favorited
  */
 class Favorite extends Model
 {

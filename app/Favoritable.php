@@ -42,12 +42,12 @@ trait Favoritable
         return (bool)$this->favorites->where('user_id', auth()->id())->count();
     }
 
-    public function getIsFavoritedAttribute()
+    public function getIsFavoritedAttribute(): bool
     {
         return $this->isFavorited();
     }
 
-    public function getFavoritesCountAttribute()
+    public function getFavoritesCountAttribute(): int
     {
         return $this->favorites->count();
     }
