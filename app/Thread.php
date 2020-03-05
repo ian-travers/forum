@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $activity_count
  * @property-read \App\Channel $channel
  * @property-read \App\User $creator
+ * @property-read bool $isSubscribedTo
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Reply[] $replies
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\ThreadSubscription[] $subscriptions
  * @property-read int|null $subscriptions_count
@@ -44,6 +45,8 @@ class Thread extends Model
     protected $guarded = [];
 
     protected $with = ['creator', 'channel'];
+
+    protected $appends = ['isSubscribedTo'];
 
     protected static function boot()
     {
@@ -101,5 +104,12 @@ class Thread extends Model
         $this->subscriptions()
             ->where('user_id', $userId ?: auth()->id())
             ->delete();
+    }
+
+    public function getIsSubscribedToAttribute(): bool
+    {
+        return (bool)$this->subscriptions()
+            ->where('user_id', auth()->id())
+            ->exists();
     }
 }
