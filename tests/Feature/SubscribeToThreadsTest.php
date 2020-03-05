@@ -24,12 +24,14 @@ class SubscribeToThreadsTest extends TestCase
 
         $this->assertCount(1, $thread->subscriptions);
 
+        $this->assertCount(0, auth()->user()->notifications);
+
         $thread->addReply([
             'user_id' => auth()->id(),
             'body' => 'Some reply here',
         ]);
 
-        // check fo notification
+        $this->assertCount(1, auth()->user()->fresh()->notifications);
     }
 
     /** @test */

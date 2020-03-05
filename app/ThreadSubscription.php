@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $thread_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ThreadSubscription newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ThreadSubscription newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\ThreadSubscription query()
@@ -25,4 +26,9 @@ use Illuminate\Database\Eloquent\Model;
 class ThreadSubscription extends Model
 {
     protected $guarded = [];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
