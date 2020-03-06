@@ -38,7 +38,7 @@ class NotificationTest extends TestCase
     }
 
     /** @test */
-    function user_can_clear_notification()
+    function user_can_mark_notification_as_read()
     {
         $this->signIn();
 
