@@ -3,7 +3,7 @@
 namespace App\Notifications;
 
 use App\Reply;
-use App\ThreadSubscription;
+use App\Thread;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
@@ -12,17 +12,17 @@ class ThreadWasUpdated extends Notification
     use Queueable;
 
     /**
-     * @var ThreadSubscription
+     * @var Thread
      */
-    private $sub;
+    private $thread;
     /**
      * @var Reply
      */
     private $reply;
 
-    public function __construct(ThreadSubscription $sub, Reply $reply)
+    public function __construct(Thread $thread, Reply $reply)
     {
-        $this->sub = $sub;
+        $this->thread = $thread;
         $this->reply = $reply;
     }
 
