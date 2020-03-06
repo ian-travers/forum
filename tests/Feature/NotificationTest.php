@@ -38,6 +38,27 @@ class NotificationTest extends TestCase
     }
 
     /** @test */
+    function user_can_fetch_their_unread_notifications()
+    {
+        $this->signIn();
+
+        /** @var Thread $thread */
+        $thread = create(Thread::class);
+        $thread->subscribe();
+
+        $thread->addReply([
+            'user_id' => create(User::class)->id,
+            'body' => 'Some reply here',
+        ]);
+
+        $user = auth()->user();
+
+        $response = $this->getJson('/profiles/' . $user->name . '/notifications')->json();
+
+        $this->assertCount(1, $response);
+    }
+
+    /** @test */
     function user_can_mark_notification_as_read()
     {
         $this->signIn();
