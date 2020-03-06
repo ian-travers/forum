@@ -45,7 +45,7 @@ class Reply extends Model
     {
         parent::boot();
 
-        static::created(function (self  $reply) {
+        static::created(function (self $reply) {
             $reply->thread->increment('replies_count');
         });
 

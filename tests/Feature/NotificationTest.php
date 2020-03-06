@@ -11,11 +11,16 @@ class NotificationTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->signIn();
+    }
+
     /** @test */
     function notification_is_prepared_when_a_subscribed_thread_get_new_reply_that_in_not_by_current_user()
     {
-        $this->signIn();
-
         /** @var Thread $thread */
         $thread = create(Thread::class);
         $thread->subscribe();
@@ -51,18 +56,12 @@ class NotificationTest extends TestCase
             'body' => 'Some reply here',
         ]);
 
-        $user = auth()->user();
-
-        $response = $this->getJson('/profiles/' . $user->name . '/notifications')->json();
-
-        $this->assertCount(1, $response);
+        $this->assertCount(1, $this->getJson('/profiles/' . auth()->user()->name . '/notifications')->json());
     }
 
     /** @test */
     function user_can_mark_notification_as_read()
     {
-        $this->signIn();
-
         /** @var Thread $thread */
         $thread = create(Thread::class);
         $thread->subscribe();
@@ -72,14 +71,14 @@ class NotificationTest extends TestCase
             'body' => 'Some reply here',
         ]);
 
-        $user = auth()->user();
+        tap(auth()->user(), function ($user) {
+            $this->assertCount(1, $user->unreadNotifications);
 
-        $this->assertCount(1, $user->unreadNotifications);
+            $notificationId = $user->unreadNotifications->first()->id;
 
-        $notificationId = $user->unreadNotifications->first()->id;
+            $this->delete('/profiles/' . $user->name . '/notifications/' . $notificationId);
 
-        $this->delete('/profiles/' . $user->name . '/notifications/' . $notificationId);
-
-        $this->assertCount(0, $user->fresh()->unreadNotifications);
+            $this->assertCount(0, $user->fresh()->unreadNotifications);
+        });
     }
 }
