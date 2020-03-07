@@ -5,7 +5,12 @@
         </a>
 
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-            <a v-for="notification in notifications" href="#" class="dropdown-item">111</a>
+            <div v-for="notification in notifications" class="dropdown-item notification-item">
+                <strong v-text="notification.data.author"></strong>
+                <span v-text="notification.data.action"></span><br>
+                <a :href="notification.data.link" v-text="notification.data.thread"></a><br>
+                <span v-text="notification.data.at" class="float-right small"></span><br>
+            </div>
         </div>
     </li>
 </template>
@@ -14,8 +19,13 @@
     export default {
         data() {
             return {
-                notifications: ['one']
+                notifications: false
             }
+        },
+
+        created() {
+            axios.get('/profiles/' + window.App.user.name + '/notifications')
+                .then(response => this.notifications = response.data)
         }
     }
 </script>

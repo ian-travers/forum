@@ -18,3 +18,11 @@
 .notification-bell:after {
     content: none;
 }
+
+.notification-item {
+    border-bottom: $border-width solid $border-color;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
