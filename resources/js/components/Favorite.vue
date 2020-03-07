@@ -1,7 +1,7 @@
 <template>
     <button type="submit" :class="classes" @click="toggle">
+        <span class="fas fa-heart mr-2"></span>
         <span class="badge badge-light badge-pill" v-text="favoritesCount"></span>
-        <span>Favors</span>
     </button>
 </template>
 
