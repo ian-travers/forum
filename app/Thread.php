@@ -88,6 +88,14 @@ class Thread extends Model
         return $reply;
     }
 
+    public function notifySubscribers(Reply $reply): void
+    {
+        $this->subscriptions
+            ->where('user_id', '!=', $reply->user_id)
+            ->each
+            ->notify($reply);
+    }
+
     public function scopeFilter($query, ThreadFilters $filters)
     {
         return $filters->apply($query);
