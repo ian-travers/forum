@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Events\ThreadHasNewReply;
 use App\Filters\ThreadFilters;
 use Illuminate\Database\Eloquent\Model;
 
@@ -78,12 +77,12 @@ class Thread extends Model
         return $this->belongsTo(Channel::class);
     }
 
-    public function addReply($reply)
+    public function addReply(array $attributes)
     {
         /** @var Reply $reply */
-        $reply = $this->replies()->create($reply);
+        $reply = $this->replies()->create($attributes);
 
-        event(new ThreadHasNewReply($this, $reply));
+        $this->notifySubscribers($reply);
 
         return $reply;
     }
