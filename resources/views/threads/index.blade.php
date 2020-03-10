@@ -11,7 +11,16 @@
                         <div class="card-header">
                             <div class="d-flex justify-content-between">
                                 <h4>
-                                    <a href="{{ $thread->path() }}">{{ $thread->title }}</a>
+                                    <a href="{{ $thread->path() }}">
+
+                                        @if($thread->hasUpdatesFor())
+                                            <strong>{{ $thread->title }}</strong>
+
+                                        @else
+                                            {{ $thread->title }}
+
+                                        @endif
+                                    </a>
                                 </h4>
                                 <a href="{{ $thread->path() }}">
                                     {{ $thread->replies_count }}
