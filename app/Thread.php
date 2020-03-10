@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $activity_count
  * @property-read \App\Channel $channel
  * @property-read \App\User $creator
- * @property-read bool $isSubscribedTo
+ * @property-read mixed $is_subscribed_to
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Reply[] $replies
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\ThreadSubscription[] $subscriptions
  * @property-read int|null $subscriptions_count
@@ -128,10 +128,8 @@ class Thread extends Model
             ->exists();
     }
 
-    public function hasUpdatesFor(): bool
+    public function hasUpdatesFor($user): bool
     {
-        $key = sprintf('users.%s.visits.%s', auth()->id(), $this->id);
-
-        return $this->updated_at > cache($key);
+        return $this->updated_at > cache($user->visitedThreadCacheKey($this));
     }
 }
