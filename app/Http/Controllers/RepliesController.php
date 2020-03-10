@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Inspections\Spam;
 use App\Reply;
-use App\Spam;
 use App\Thread;
 
 class RepliesController extends Controller
@@ -23,7 +23,7 @@ class RepliesController extends Controller
      * @param Thread $thread
      * @param Spam $spam
      * @return Reply|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws \Illuminate\Validation\ValidationException|\Exception
      */
     public function store($channelId, Thread $thread, Spam $spam)
     {
