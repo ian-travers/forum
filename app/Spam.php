@@ -12,6 +12,7 @@ class Spam
     public function detect(string $body): bool
     {
         $this->detectInvalidKeywords($body);
+        $this->detectKeyHeldDown($body);
 
         return false;
     }
@@ -30,6 +31,14 @@ class Spam
             if (stripos($body, $keyword) !== false) {
                 throw new \Exception('Spam is detected.');
             }
+        }
+    }
+
+    protected function detectKeyHeldDown(string $body)
+    {
+        // RegExp belows looks for 5+ same symbols in a row
+        if (preg_match('/(.)\\1{4,}/', $body)) {
+            throw new \Exception('Spam is detected.');
         }
     }
 }
