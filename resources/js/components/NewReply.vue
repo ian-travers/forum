@@ -29,14 +29,16 @@
 
         methods: {
             addReply() {
-                axios
-                    .post(location.pathname + '/replies', {body: this.body})
+                axios.post(location.pathname + '/replies', {body: this.body})
                     .then(response => {
                         this.body = '';
 
                         flash('You reply has been posted.');
 
                         this.$emit('created', response.data);
+                    })
+                    .catch(error => {
+                        flash(error.response.data, 'danger');
                     });
             }
         }
