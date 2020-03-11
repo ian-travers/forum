@@ -23,16 +23,11 @@ class RepliesController extends Controller
      * @param Thread $thread
      * @param Spam $spam
      * @return Reply|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws \Illuminate\Validation\ValidationException|\Exception
-     * @throws \Exception
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function store($channelId, Thread $thread, Spam $spam)
+    public function store($channelId, Thread $thread)
     {
-        $this->validate(request(), [
-            'body' => 'required',
-        ]);
-
-        $spam->detect(request('body'));
+        $this->validateReply();
 
         $reply = $thread->addReply([
             'body' => request('body'),
@@ -49,17 +44,14 @@ class RepliesController extends Controller
 
     /**
      * @param Reply $reply
-     * @param Spam $spam
      * @throws \Illuminate\Auth\Access\AuthorizationException
-     * @throws \Illuminate\Validation\ValidationException|\Exception
-     * @throws \Exception
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Reply $reply, Spam $spam)
+    public function update(Reply $reply)
     {
         $this->authorize('update', $reply);
 
-        $this->validate(request(), ['body' => 'required']);
-        $spam->detect(request('body'));
+        $this->validateReply();
 
         $reply->update(request(['body']));
     }
@@ -80,5 +72,18 @@ class RepliesController extends Controller
         }
 
         return back();
+    }
+
+    /**
+     * @throws \Illuminate\Validation\ValidationException
+     * @throws \Exception
+     */
+    protected function validateReply(): void
+    {
+        $this->validate(request(), [
+            'body' => 'required',
+        ]);
+
+        resolve(Spam::class)->detect(request('body'));
     }
 }
