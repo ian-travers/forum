@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use App\Filters\ThreadFilters;
+use App\Inspections\Spam;
 use App\Thread;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -32,13 +32,23 @@ class ThreadsController extends Controller
         return view('threads.create');
     }
 
-    public function store(Request $request)
+    /**
+     * @param Request $request
+     * @param Spam $spam
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Validation\ValidationException
+     * @throws \Exception
+     */
+    public function store(Request $request, Spam $spam)
     {
         $this->validate($request, [
             'title' => 'required',
             'body' => 'required',
             'channel_id' => 'required|exists:channels,id',
         ]);
+
+        $spam->detect(request('title'));
+        $spam->detect(request('body'));
 
         $thread = Thread::create([
             'user_id' => auth()->id(),
@@ -70,6 +80,13 @@ class ThreadsController extends Controller
         //
     }
 
+    /**
+     * @param $channel
+     * @param Thread $thread
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|Response|\Illuminate\Routing\Redirector
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Exception
+     */
     public function destroy($channel, Thread $thread)
     {
         $this->authorize('update', $thread);
