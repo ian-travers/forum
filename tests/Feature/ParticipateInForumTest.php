@@ -58,7 +58,7 @@ class ParticipateInForumTest extends TestCase
 
         $reply = make(Reply::class, ['body' => null]);
 
-        $this->post($this->thread->path() . '/replies', $reply->toArray())
+        $this->json('post', $this->thread->path() . '/replies', $reply->toArray())
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
@@ -126,7 +126,6 @@ class ParticipateInForumTest extends TestCase
     /** @test */
     function replies_that_contains_spam_may_not_be_created()
     {
-        $this->withoutExceptionHandling();
         $this->signIn(create(User::class));
 
         /** @var Reply $reply */
@@ -134,7 +133,7 @@ class ParticipateInForumTest extends TestCase
             'body' => 'Yahoo Customer Support'
         ]);
 
-        $this->post($this->thread->path() . '/replies', $reply->toArray())
+        $this->json('post', $this->thread->path() . '/replies', $reply->toArray())
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 

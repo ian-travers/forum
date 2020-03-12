@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -50,6 +52,16 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof ValidationException) {
+            if ($request->wantsJson()) {
+                return response('Sorry, validation failed', Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+        }
+
+        if ($exception instanceof ThrottleException) {
+            return response($exception->getMessage(), Response::HTTP_TOO_MANY_REQUESTS);
+        }
+
         return parent::render($request, $exception);
     }
 }

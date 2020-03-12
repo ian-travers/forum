@@ -52,14 +52,14 @@ class CreateThreadsTest extends TestCase
     function thread_requires_a_title()
     {
         $this->publishThread(['title' => null])
-            ->assertSessionHasErrors('title');
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /** @test */
     function thread_requires_a_body()
     {
         $this->publishThread(['body' => null])
-            ->assertSessionHasErrors('body');
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /** @test */
@@ -68,10 +68,10 @@ class CreateThreadsTest extends TestCase
         factory(Channel::class, 2)->create();
 
         $this->publishThread(['channel_id' => null])
-            ->assertSessionHasErrors('channel_id');
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
         $this->publishThread(['channel_id' => 999999])
-            ->assertSessionHasErrors('channel_id');
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     protected function publishThread($overrides = [])
@@ -80,6 +80,6 @@ class CreateThreadsTest extends TestCase
 
         $thread = make(Thread::class, $overrides);
 
-        return $this->post('/threads', $thread->toArray());
+        return $this->json('post', '/threads', $thread->toArray());
     }
 }
