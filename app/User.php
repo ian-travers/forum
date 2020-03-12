@@ -20,6 +20,7 @@ use Illuminate\Notifications\Notifiable;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activity
  * @property-read int|null $activity_count
+ * @property-read \App\Reply $lastReply
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Thread[] $threads
@@ -78,11 +79,20 @@ class User extends Authenticatable
         return $this->hasMany(Thread::class)->latest();
     }
 
+    public function lastReply()
+    {
+        return $this->hasOne(Reply::class)->latest();
+    }
+
     public function activity()
     {
         return $this->hasMany(Activity::class);
     }
 
+    /**
+     * @param Thread $thread
+     * @throws \Exception
+     */
     public function readThread(Thread $thread): void
     {
         cache()->forever($this->visitedThreadCacheKey($thread), Carbon::now());

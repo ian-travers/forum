@@ -137,4 +137,26 @@ class ParticipateInForumTest extends TestCase
         $this->post($this->thread->path() . '/replies', $reply->toArray())
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
+
+    /** @test */
+    function user_may_only_reply_a_maximum_of_once_per_minute()
+    {
+        $this->signIn();
+
+        /** @var Reply $reply */
+        $reply = make(Reply::class, [
+            'body' => 'Simple reply'
+        ]);
+
+        $this->post($this->thread->path() . '/replies', $reply->toArray())
+            ->assertStatus(Response::HTTP_CREATED);
+
+        $reply = make(Reply::class, [
+            'body' => 'Simple reply'
+        ]);
+
+        $this->post($this->thread->path() . '/replies', $reply->toArray())
+            ->assertStatus(Response::HTTP_TOO_MANY_REQUESTS);
+
+    }
 }
