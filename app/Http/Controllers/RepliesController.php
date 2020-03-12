@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePostRequest;
+use App\Notifications\YouAreMentioned;
 use App\Reply;
 use App\Thread;
+use App\User;
 use Illuminate\Http\Response;
 
 class RepliesController extends Controller
@@ -27,10 +29,24 @@ class RepliesController extends Controller
      */
     public function store($channelId, Thread $thread, CreatePostRequest $request)
     {
-        return $thread->addReply([
+        /** @var Reply $reply */
+        $reply = $thread->addReply([
             'body' => request('body'),
             'user_id' => auth()->id(),
         ])->load('owner');
+
+        preg_match_all('/\@([^\W+]+)/', $reply->body, $matches);
+
+        $names = $matches[1];
+
+        foreach ($names as $name) {
+            $user = User::whereName($name)->first();
+            if ($user) {
+                $user->notify(new YouAreMentioned($reply));
+            }
+        }
+
+        return $reply;
     }
 
     /**
