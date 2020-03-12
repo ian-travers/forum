@@ -59,7 +59,7 @@ class ParticipateInForumTest extends TestCase
         $reply = make(Reply::class, ['body' => null]);
 
         $this->post($this->thread->path() . '/replies', $reply->toArray())
-            ->assertSessionHasErrors('body');
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /** @test */
@@ -134,8 +134,7 @@ class ParticipateInForumTest extends TestCase
             'body' => 'Yahoo Customer Support'
         ]);
 
-        $this->expectException(\Exception::class);
-
-        $this->post($this->thread->path() . '/replies', $reply->toArray());
+        $this->post($this->thread->path() . '/replies', $reply->toArray())
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Inspections\Spam;
 use App\Reply;
 use App\Thread;
 use Illuminate\Http\Response;
@@ -22,14 +21,15 @@ class RepliesController extends Controller
     /**
      * @param $channelId
      * @param Thread $thread
-     * @param Spam $spam
      * @return Reply|\Illuminate\Http\Response
      * @throws \Exception
      */
     public function store($channelId, Thread $thread)
     {
         try {
-            $this->validateReply();
+            $this->validate(request(), [
+                'body' => 'required|spamfree',
+            ]);
 
             $reply = $thread->addReply([
                 'body' => request('body'),
@@ -44,15 +44,17 @@ class RepliesController extends Controller
 
     /**
      * @param Reply $reply
+     * @return void|\Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
-     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Reply $reply)
     {
         $this->authorize('update', $reply);
 
         try {
-            $this->validateReply();
+            $this->validate(request(), [
+                'body' => 'required|spamfree',
+            ]);
 
             $reply->update(request(['body']));
         } catch (\Exception $e) {
@@ -62,7 +64,7 @@ class RepliesController extends Controller
 
     /**
      * @param Reply $reply
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      * @throws \Exception
      */
     public function destroy(Reply $reply)
@@ -76,18 +78,5 @@ class RepliesController extends Controller
         }
 
         return back();
-    }
-
-    /**
-     * @throws \Illuminate\Validation\ValidationException
-     * @throws \Exception
-     */
-    protected function validateReply(): void
-    {
-        $this->validate(request(), [
-            'body' => 'required',
-        ]);
-
-        resolve(Spam::class)->detect(request('body'));
     }
 }
