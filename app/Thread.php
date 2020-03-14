@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\ThreadReceiveNewReply;
 use App\Filters\ThreadFilters;
 use Illuminate\Database\Eloquent\Model;
 
@@ -82,6 +83,8 @@ class Thread extends Model
         /** @var Reply $reply */
         $reply = $this->replies()->create($attributes);
 
+        event(new ThreadReceiveNewReply($reply));
+
         $this->notifySubscribers($reply);
 
         return $reply;
@@ -128,6 +131,11 @@ class Thread extends Model
             ->exists();
     }
 
+    /**
+     * @param User $user
+     * @return bool
+     * @throws \Exception
+     */
     public function hasUpdatesFor($user): bool
     {
         return $this->updated_at > cache($user->visitedThreadCacheKey($this));
