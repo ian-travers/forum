@@ -70,6 +70,14 @@ class Reply extends Model
         return $this->created_at->gt(Carbon::now()->subMinute());
     }
 
+    public function mentionedUsers()
+    {
+        // Find any mentioned users (@username) in the reply's body
+        preg_match_all('/@([^\W+]+)/', $this->body, $matches);
+
+        return $matches[1];
+    }
+
     public function path()
     {
         return $this->thread->path() . '#reply-' . $this->id;
