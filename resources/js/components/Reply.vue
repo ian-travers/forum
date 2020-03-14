@@ -14,11 +14,13 @@
 
         <div class="card-body">
             <div v-if="editing">
-                <div class="form-group">
-                    <textarea class="form-control" v-model="body" name=""></textarea>
-                </div>
-                <button class="btn btn-sm btn-primary" @click="update">Update</button>
-                <button class="btn btn-sm btn-secondary" @click="editing = false">Cancel</button>
+                <form @submit="update">
+                    <div class="form-group">
+                        <textarea class="form-control" v-model="body" required></textarea>
+                    </div>
+                    <button class="btn btn-sm btn-primary">Update</button>
+                    <button class="btn btn-sm btn-secondary" @click="cancel" type="button">Cancel</button>
+                </form>
             </div>
             <div v-else v-text="body"></div>
         </div>
@@ -66,6 +68,7 @@
             update() {
                 axios.patch('/replies/' + this.data.id, {body: this.body})
                     .then(response => {
+                        this.data.body = this.body;
                         flash('Updated!');
                     })
                     .catch(error => {
@@ -73,6 +76,11 @@
                     });
 
                 this.editing = false;
+            },
+
+            cancel() {
+                this.editing = false;
+                this.body = this.data.body;
             },
 
             destroy() {
