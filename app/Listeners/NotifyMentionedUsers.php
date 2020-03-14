@@ -11,10 +11,10 @@ class NotifyMentionedUsers
     /**
      * Handle the event.
      *
-     * @param  ThreadReceiveNewReply  $event
+     * @param ThreadReceiveNewReply $event
      * @return void
      */
-    public function handle(ThreadReceiveNewReply $event)
+    public function handle($event)
     {
         $mentionedUsers = $event->reply->mentionedUsers();
 
