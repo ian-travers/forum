@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreatePostRequest;
 use App\Reply;
 use App\Thread;
-use Illuminate\Http\Response;
 
 class RepliesController extends Controller
 {
@@ -35,22 +34,16 @@ class RepliesController extends Controller
 
     /**
      * @param Reply $reply
-     * @return void|\Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Reply $reply)
     {
         $this->authorize('update', $reply);
 
-        try {
-            $this->validate(request(), [
-                'body' => 'required|spamfree',
-            ]);
+        $this->validate(request(), ['body' => 'required|spamfree']);
 
-            $reply->update(request(['body']));
-        } catch (\Exception $e) {
-            return response('Sorry, your reply could not be updated at this time.', Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
+        $reply->update(request(['body']));
     }
 
     /**
