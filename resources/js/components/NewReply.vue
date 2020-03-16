@@ -2,9 +2,13 @@
     <div>
         <div v-if="signedIn">
             <div class="form-group mt-3">
-            <textarea name="body" id="body" class="form-control" rows="5"
-                      placeholder="Have something to say?" v-model="body" required></textarea>
+                <VueTribute :options="options">
+                    <textarea name="body" id="body" class="form-control" rows="5"
+                              placeholder="Have something to say?" v-model="body" required></textarea>
+                </VueTribute>
+                <div class="menu-container" ref="menuContainer"></div>
             </div>
+
             <button type="submit" class="btn btn-primary" @click="addReply">Post</button>
         </div>
 
@@ -14,11 +18,31 @@
 </template>
 
 <script>
+    import VueTribute from "vue-tribute";
+
     export default {
+        components: {
+            VueTribute
+        },
+
         data() {
             return {
-                body: ''
+                body: '',
+                options: {
+                    // trigger: "@",
+                    values: [
+                        {key: "Collin Henderson", value: "syropian"},
+                        {key: "Sarah Drasner", value: "sarah_edo"},
+                        {key: "Evan You", value: "youyuxi"},
+                        {key: "Adam Wathan", value: "adamwathan"}
+                    ],
+                    positionMenu: true,
+                }
             }
+        },
+
+        mounted() {
+            this.options.menuContainer = this.$refs.menuContainer;
         },
 
         computed: {
@@ -44,3 +68,7 @@
         }
     }
 </script>
+
+<style lang="scss">
+    @import '../../sass/tribute';
+</style>
