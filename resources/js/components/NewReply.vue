@@ -2,11 +2,14 @@
     <div>
         <div v-if="signedIn">
             <div class="form-group mt-3">
-                <VueTribute :options="options">
-                    <textarea name="body" id="body" class="form-control" rows="5"
-                              placeholder="Have something to say?" v-model="body" required></textarea>
-                </VueTribute>
-                <div class="menu-container" ref="menuContainer"></div>
+                <textarea
+                    name="body"
+                    id="body"
+                    class="form-control"
+                    rows="5"
+                    placeholder="Have something to say?"
+                    v-model="body"
+                    required></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary" @click="addReply">Post</button>
@@ -18,37 +21,34 @@
 </template>
 
 <script>
-    import VueTribute from "vue-tribute";
+    import 'jquery.caret';
+    import 'at.js';
 
     export default {
-        components: {
-            VueTribute
-        },
-
         data() {
             return {
                 body: '',
-                options: {
-                    // trigger: "@",
-                    values: [
-                        {key: "Collin Henderson", value: "syropian"},
-                        {key: "Sarah Drasner", value: "sarah_edo"},
-                        {key: "Evan You", value: "youyuxi"},
-                        {key: "Adam Wathan", value: "adamwathan"}
-                    ],
-                    positionMenu: true,
-                }
             }
-        },
-
-        mounted() {
-            this.options.menuContainer = this.$refs.menuContainer;
         },
 
         computed: {
             signedIn() {
                 return window.App.signedIn;
             }
+        },
+
+        mounted() {
+            $('#body').atwho({
+                at: "@",
+                delay: 700,
+                callbacks: {
+                    remoteFilter: function (query, callback) {
+                        $.getJSON("/api/users", {name: query}, function (usernames) {
+                            callback(usernames);
+                        });
+                    }
+                }
+            });
         },
 
         methods: {
@@ -70,5 +70,5 @@
 </script>
 
 <style lang="scss">
-    @import '../../sass/tribute';
+    @import '../../sass/atwho';
 </style>
