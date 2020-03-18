@@ -27,6 +27,12 @@
                                     {{ \Illuminate\Support\Str::plural('comment', $thread->replies_count) }}
                                 </a>
                             </div>
+                            <div>
+                                <small class="fas fa-user"></small>
+                                <a href="/profiles/{{ $thread->creator->name }}"> {{ $thread->creator->name }}</a>
+                                <small class="fas fa-calendar-day"></small>
+                                <span> {{ $thread->created_at->format('H:i l F d, Y.') }}</span>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div>{{ $thread->body }}</div>
