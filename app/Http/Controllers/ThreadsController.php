@@ -98,7 +98,7 @@ class ThreadsController extends Controller
     /**
      * @param Channel $channel
      * @param ThreadFilters $filters
-     * @return Thread|Thread[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     protected function getThreads(Channel $channel, ThreadFilters $filters)
     {
@@ -111,6 +111,6 @@ class ThreadsController extends Controller
 
         $threads = $threads->filter($filters);
 
-        return $threads->get();
+        return $threads->paginate(4);
     }
 }

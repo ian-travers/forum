@@ -1,4 +1,5 @@
 @php /* @var App\Thread $thread */ @endphp
+
 @forelse($threads as $thread)
     <div class="card mb-3">
         <div class="card-header">
