@@ -43,29 +43,14 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name', 'email', 'password', 'avatar_path'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token', 'email',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -104,8 +89,8 @@ class User extends Authenticatable
         return sprintf('users.%s.visits.%s', $this->id, $thread->id);
     }
 
-    public function avatar()
+    public function getAvatarPathAttribute($avatar)
     {
-        return $this->avatar_path ? asset('storage/' . $this->avatar_path) : asset('storage/avatars/default.png');
+        return $avatar ? asset('storage/' . $avatar) : asset('storage/avatars/default.png');
     }
 }

@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 
 class UserAvatarController extends Controller
 {
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|Response
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store()
@@ -20,6 +21,6 @@ class UserAvatarController extends Controller
             'avatar_path' => request()->file('avatar')->store('avatars', 'public')
         ]);
 
-        return back();
+        return response([], Response::HTTP_NO_CONTENT);
     }
 }

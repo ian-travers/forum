@@ -12,7 +12,7 @@
                             <div class="d-flex align-items-baseline justify-content-between">
                                 <div>
                                     <img
-                                        src="{{ $thread->creator->avatar() }}"
+                                        src="{{ $thread->creator->avatar_path }}"
                                         alt="author_avatar"
                                         width="25"
                                         height="25"

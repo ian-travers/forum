@@ -46,7 +46,7 @@ class AddAvatarTest extends TestCase
 
         $fileHash = $file->hashName();
 
-        $this->assertEquals('avatars/' . $fileHash, auth()->user()->avatar_path);
+        $this->assertEquals(asset('storage/avatars/' . $fileHash), auth()->user()->avatar_path);
 
         Storage::disk('public')
             ->assertExists('avatars/' . $fileHash);
@@ -58,10 +58,10 @@ class AddAvatarTest extends TestCase
         /** @var User $user */
         $user = create(User::class);
 
-        $this->assertEquals(asset('/storage/avatars/default.png'), $user->avatar());
+        $this->assertEquals(asset('/storage/avatars/default.png'), $user->avatar_path);
 
         $user->avatar_path = 'avatars/me.jpeg';
 
-        $this->assertEquals(asset('/storage/avatars/me.jpeg'), $user->avatar());
+        $this->assertEquals(asset('/storage/avatars/me.jpeg'), $user->avatar_path);
     }
 }
