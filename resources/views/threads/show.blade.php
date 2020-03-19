@@ -11,6 +11,13 @@
                         <div class="card-header">
                             <div class="d-flex align-items-baseline justify-content-between">
                                 <div>
+                                    <img
+                                        src="{{ $thread->creator->avatar() }}"
+                                        alt="author_avatar"
+                                        width="25"
+                                        height="25"
+                                        class="rounded-circle mr-1"
+                                    >
                                     <a href="{{ route('profile', $thread->creator) }}"
                                        class="">{{ $thread->creator->name }} </a> posted:
                                     {{ $thread->title }}

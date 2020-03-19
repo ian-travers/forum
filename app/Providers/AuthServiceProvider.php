@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Policies\ReplyPolicy;
 use App\Policies\ThreadPolicy;
+use App\Policies\UserPolicy;
 use App\Reply;
 use App\Thread;
 use App\User;
@@ -15,6 +16,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Thread::class => ThreadPolicy::class,
         Reply::class => ReplyPolicy::class,
+        User::class => UserPolicy::class
     ];
 
     public function boot(): void

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\Response;
 use Illuminate\Http\UploadedFile;
@@ -49,5 +50,18 @@ class AddAvatarTest extends TestCase
 
         Storage::disk('public')
             ->assertExists('avatars/' . $fileHash);
+    }
+
+    /** @test */
+    function user_can_determine_their_avatar_path()
+    {
+        /** @var User $user */
+        $user = create(User::class);
+
+        $this->assertEquals(asset('/storage/avatars/default.png'), $user->avatar());
+
+        $user->avatar_path = 'avatars/me.jpeg';
+
+        $this->assertEquals(asset('/storage/avatars/me.jpeg'), $user->avatar());
     }
 }
