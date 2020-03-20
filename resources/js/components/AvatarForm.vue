@@ -5,26 +5,25 @@
             <small v-text="since"></small>
         </p>
 
-        <form v-if="canUpdate" method="post" enctype="multipart/form-data">
+        <div class="d-flex align-items-center">
+            <img :src="avatar" width="50" height="50" alt="avatar" class="mr-2">
+            <form v-if="canUpdate" method="post" enctype="multipart/form-data">
+                <image-upload name="avatar" @loaded="onLoad"></image-upload>
+            </form>
+        </div>
 
-            <div class="d-flex justify-content-between align-items-baseline">
-                <div class="form-group">
-                    <input type="file" name="avatar" accept="image/*" @change="onChange">
-                </div>
-            </div>
-
-        </form>
-
-        <img :src="avatar" width="50" height="50" alt="avatar">
         <hr>
     </div>
 </template>
 
 <script>
     import moment from "moment";
+    import ImageUpload from "./ImageUpload";
 
     export default {
         props: ['user'],
+
+        components: {ImageUpload},
 
         data() {
             return {
@@ -43,21 +42,11 @@
         },
 
         methods: {
-            onChange(el) {
-                if (!el.target.files.length) return;
+            onLoad(avatar) {
+                this.avatar = avatar.src;
 
-                let newAvatarFile = el.target.files[0];
-
-                let reader = new FileReader();
-
-                reader.readAsDataURL(newAvatarFile);
-
-                reader.onload = ev => {
-                    // console.log(ev);
-                    this.avatar = ev.target.result;
-                };
-
-                this.persist(newAvatarFile);
+                // Persist to the server
+                this.persist(avatar.newFile);
             },
 
             persist(newAvatarFile) {
@@ -71,7 +60,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>
