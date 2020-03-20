@@ -9,3 +9,9 @@ services:
       - /etc/localtime:/etc/localtime:ro
     working_dir: /var/www
     tty: true
+
+  # Redis
+  redis:
+    image: redis:5.0-alpine
+    volumes:
+      - ./storage/redis:/data
