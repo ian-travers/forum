@@ -32,7 +32,8 @@
             <div>{{ $thread->body }}</div>
         </div>
         <div class="card-footer">
-
+            <span class="fas fa-eye"></span>
+            {{ $thread->visits() }}
         </div>
     </div>
 

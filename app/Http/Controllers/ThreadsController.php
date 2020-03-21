@@ -60,13 +60,13 @@ class ThreadsController extends Controller
             ->with('flash', 'Your thread has been published!');
     }
 
-    public function show($channel, Thread $thread, Trending $trending)
+    public function show($channel, Thread $thread)
     {
         if (auth()->check()) {
             auth()->user()->readThread($thread);
         }
 
-        $trending->push($thread);
+        $thread->recordVisit();
 
         return view('threads.show', compact('thread'));
     }
