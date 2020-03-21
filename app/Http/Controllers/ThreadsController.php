@@ -7,6 +7,7 @@ use App\Filters\ThreadFilters;
 use App\Thread;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Redis;
 
 class ThreadsController extends Controller
 {
@@ -61,6 +62,11 @@ class ThreadsController extends Controller
         if (auth()->check()) {
             auth()->user()->readThread($thread);
         }
+
+        Redis::zincrby('trending_threads', 1, json_encode([
+            'title' => $thread->title,
+            'path' =>$thread->path(),
+        ]));
 
         return view('threads.show', compact('thread'));
     }

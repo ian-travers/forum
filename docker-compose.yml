@@ -13,5 +13,7 @@ services:
   # Redis
   redis:
     image: redis:5.0-alpine
+    ports:
+      - "63791:6379"
     volumes:
       - ./storage/redis:/data
