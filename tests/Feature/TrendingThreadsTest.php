@@ -28,7 +28,11 @@ class TrendingThreadsTest extends TestCase
 
         $this->call('get', $thread->path());
 
-        $this->assertCount(1, Redis::zrevrange('trending_threads', 0, -1));
+
+        $trending = Redis::zrevrange('trending_threads', 0, -1);
+
+        $this->assertCount(1, $trending);
+        $this->assertEquals($thread->title, json_decode($trending[0])->title);
     }
 
 
