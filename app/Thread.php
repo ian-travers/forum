@@ -5,7 +5,6 @@ namespace App;
 use App\Events\ThreadReceiveNewReply;
 use App\Filters\ThreadFilters;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Redis;
 
 /**
  * App\Thread
@@ -42,7 +41,7 @@ use Illuminate\Support\Facades\Redis;
  */
 class Thread extends Model
 {
-    use RecordsActivity;
+    use RecordsActivity, RecordVisits;
 
     protected $guarded = [];
 
@@ -130,32 +129,5 @@ class Thread extends Model
     public function hasUpdatesFor($user): bool
     {
         return $this->updated_at > cache($user->visitedThreadCacheKey($this));
-    }
-
-    public function recordVisit(): self
-    {
-        Redis::incr($this->visitCacheKey());
-
-        return $this;
-    }
-
-    public function visits()
-    {
-        return Redis::get($this->visitCacheKey());
-    }
-
-    public function resetVisits(): self
-    {
-        Redis::del($this->visitCacheKey());
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    protected function visitCacheKey(): string
-    {
-        return "threads.{$this->id}.visits";
     }
 }
