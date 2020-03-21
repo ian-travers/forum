@@ -31,6 +31,9 @@
         <div class="card-body">
             <div>{{ $thread->body }}</div>
         </div>
+        <div class="card-footer">
+
+        </div>
     </div>
 
 @empty

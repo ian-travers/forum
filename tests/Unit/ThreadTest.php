@@ -6,7 +6,6 @@ use App\Channel;
 use App\Notifications\ThreadWasUpdated;
 use App\Thread;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Notification;
@@ -136,5 +135,22 @@ class ThreadTest extends TestCase
         auth()->user()->readThread($thread);
 
         $this->assertFalse($thread->hasUpdatesFor(auth()->user()));
+    }
+
+    /** @test */
+    function thread_records_each_visit()
+    {
+        /** @var Thread $thread */
+        $thread = make(Thread::class, ['id' => 1]);
+
+        $thread->resetVisits();
+
+        $thread->recordVisit();
+
+        $this->assertEquals(1, $thread->visits());
+
+        $thread->recordVisit();
+
+        $this->assertEquals(2, $thread->visits());
     }
 }
