@@ -2,3 +2,5 @@
 
 Forum is a training Laravel 6 web application.
 
+Don't forget set redis service on. See Makefile.
+

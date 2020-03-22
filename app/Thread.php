@@ -41,7 +41,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Thread extends Model
 {
-    use RecordsActivity, RecordVisits;
+    use RecordsActivity;
 
     protected $guarded = [];
 
@@ -129,5 +129,10 @@ class Thread extends Model
     public function hasUpdatesFor($user): bool
     {
         return $this->updated_at > cache($user->visitedThreadCacheKey($this));
+    }
+
+    public function visits()
+    {
+        return new Visits($this);
     }
 }
