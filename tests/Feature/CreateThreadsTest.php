@@ -31,6 +31,16 @@ class CreateThreadsTest extends TestCase
     }
 
     /** @test */
+    function authenticated_user_must_first_confirm_their_email_before_creating_threads()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->publishThread()
+            ->assertRedirect('/threads')
+            ->assertSessionHas('flash', 'You must first confirm your email.');
+    }
+
+    /** @test */
     function authenticated_user_can_create_new_thread()
     {
         $this->withoutExceptionHandling();
