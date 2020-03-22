@@ -17,5 +17,6 @@ $factory->define(Thread::class, function (Faker $faker) {
         },
         'title' => $faker->sentence(4),
         'body' => $faker->paragraph(),
+        'visits' => 0,
     ];
 });

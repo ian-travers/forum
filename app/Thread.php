@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $user_id
  * @property int $channel_id
  * @property-read int|null $replies_count
+ * @property int $visits
  * @property string $title
  * @property string $body
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -37,6 +38,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereVisits($value)
  * @mixin \Eloquent
  */
 class Thread extends Model
@@ -129,10 +131,5 @@ class Thread extends Model
     public function hasUpdatesFor($user): bool
     {
         return $this->updated_at > cache($user->visitedThreadCacheKey($this));
-    }
-
-    public function visits()
-    {
-        return new Visits($this);
     }
 }
