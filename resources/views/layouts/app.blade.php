@@ -27,6 +27,10 @@
     </main>
 
     <flash message="{{ session('flash') }}"></flash>
+
+    @if(session('verified'))
+        <flash message="Your email address is verified."></flash>
+    @endif
 </div>
 <!-- Scripts -->
 <script>

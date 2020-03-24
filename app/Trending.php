@@ -13,7 +13,7 @@ class Trending
 
     public function get()
     {
-        return array_map('json_decode', Redis::zrevrange($this->cacheKey(), 0, 4));
+        return $this->isRedisOn() ? array_map('json_decode', Redis::zrevrange($this->cacheKey(), 0, 4)) : [];
     }
 
     public function push(Thread $thread)
@@ -27,5 +27,15 @@ class Trending
     public function reset()
     {
         Redis::del($this->cacheKey());
+    }
+
+    public function isRedisOn(): bool
+    {
+        try {
+            $redis = Redis::connect(config('database.redis.default.host'), config('database.redis.default.port'));
+            return true;
+        } catch (\Predis\Connection\ConnectionException $e) {
+            return false;
+        }
     }
 }
