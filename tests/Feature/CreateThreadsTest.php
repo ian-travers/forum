@@ -31,7 +31,7 @@ class CreateThreadsTest extends TestCase
     }
 
     /** @test */
-    function authenticated_user_must_first_confirm_their_email_before_creating_threads()
+    function new_user_must_first_confirm_their_email_before_creating_threads()
     {
         $this->signIn();
 

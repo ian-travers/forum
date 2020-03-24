@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Activity;
 use App\Reply;
 use App\Thread;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\Response;
 use Tests\TestCase;
@@ -22,7 +23,10 @@ class DeleteThreadsTest extends TestCase
         $this->delete($thread->path())
             ->assertRedirect('/login');
 
-        $this->signIn();
+        /** @var User $user */
+        $user = create(User::class);
+        $user->markEmailAsVerified();
+        $this->signIn($user);
 
         $this->delete($thread->path())
             ->assertStatus(Response::HTTP_FORBIDDEN);
@@ -31,7 +35,10 @@ class DeleteThreadsTest extends TestCase
     /** @test */
     function authorized_users_can_delete_threads()
     {
-        $this->signIn();
+        /** @var User $user */
+        $user = create(User::class);
+        $user->markEmailAsVerified();
+        $this->signIn($user);
 
         /** @var Thread $thread */
         $thread = create(Thread::class, ['user_id' => auth()->id()]);
