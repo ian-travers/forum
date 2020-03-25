@@ -8,6 +8,7 @@ use App\Thread;
 use App\Trending;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Str;
 
 class ThreadsController extends Controller
 {
@@ -53,6 +54,7 @@ class ThreadsController extends Controller
             'user_id' => auth()->id(),
             'channel_id' => request('channel_id'),
             'title' => request('title'),
+            'slug' => Str::slug(request('title')),
             'body' => request('body'),
         ]);
 

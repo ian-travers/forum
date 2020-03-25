@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $replies_count
  * @property int $visits
  * @property string $title
+ * @property string $slug
  * @property string $body
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -35,6 +36,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereRepliesCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereUserId($value)
@@ -62,7 +64,7 @@ class Thread extends Model
 
     public function path(): string
     {
-        return '/threads/' . $this->channel->slug . '/' . $this->id;
+        return "/threads/{$this->channel->slug}/{$this->slug}";
     }
 
     public function replies()
@@ -131,5 +133,10 @@ class Thread extends Model
     public function hasUpdatesFor($user): bool
     {
         return $this->updated_at > cache($user->visitedThreadCacheKey($this));
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

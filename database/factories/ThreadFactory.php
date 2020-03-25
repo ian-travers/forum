@@ -8,6 +8,8 @@ use App\User;
 use Faker\Generator as Faker;
 
 $factory->define(Thread::class, function (Faker $faker) {
+    $title = $faker->sentence(4);
+
     return [
         'user_id' => function() {
             return factory(User::class)->create()->id;
@@ -15,7 +17,8 @@ $factory->define(Thread::class, function (Faker $faker) {
         'channel_id' => function() {
             return factory(Channel::class)->create()->id;
         },
-        'title' => $faker->sentence(4),
+        'title' => $title,
+        'slug' => Str::slug($title),
         'body' => $faker->paragraph(),
         'visits' => 0,
     ];
