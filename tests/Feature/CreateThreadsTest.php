@@ -20,14 +20,14 @@ class CreateThreadsTest extends TestCase
 
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
-        $this->post('/threads', []);
+        $this->post(route('threads'), []);
     }
 
     /** @test */
     function guest_can_not_see_create_thread_page()
     {
-        $this->get('/threads/create')
-            ->assertRedirect('/login');
+        $this->get(route('threads.create'))
+            ->assertRedirect(route('login'));
     }
 
     /** @test */
@@ -37,8 +37,8 @@ class CreateThreadsTest extends TestCase
 
         $thread = make(Thread::class);
 
-        $this->json('post', '/threads', $thread->toArray())
-            ->assertRedirect('/threads')
+        $this->json('post', route('threads'), $thread->toArray())
+            ->assertRedirect(route('threads'))
             ->assertSessionHas('flash', 'You must first confirm your email.');
     }
 
@@ -56,7 +56,7 @@ class CreateThreadsTest extends TestCase
         /** @var Thread $thread */
         $thread = make(Thread::class);
 
-        $response = $this->post('/threads', $thread->toArray());
+        $response = $this->post(route('threads'), $thread->toArray());
 
         $this->get($response->headers->get('Location'))
             ->assertStatus(Response::HTTP_OK)
@@ -100,6 +100,6 @@ class CreateThreadsTest extends TestCase
 
         $thread = make(Thread::class, $overrides);
 
-        return $this->json('post', '/threads', $thread->toArray());
+        return $this->json('post', route('threads'), $thread->toArray());
     }
 }

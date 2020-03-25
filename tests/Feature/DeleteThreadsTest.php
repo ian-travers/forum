@@ -21,14 +21,14 @@ class DeleteThreadsTest extends TestCase
         $thread = create(Thread::class);
 
         $this->delete($thread->path())
-            ->assertRedirect('/login');
+            ->assertRedirect(route('login'));
 
         /** @var User $user */
         $user = create(User::class);
         $user->markEmailAsVerified();
         $this->signIn($user);
 
-        $this->delete($thread->path())
+        $this->delete(route('thread.destroy', [$thread->channel, $thread]))
             ->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
@@ -45,7 +45,7 @@ class DeleteThreadsTest extends TestCase
         /** @var Reply $reply */
         $reply = create(Reply::class, ['thread_id' => $thread->id]);
 
-        $this->json('delete', $thread->path())
+        $this->json('delete', route('thread.destroy', [$thread->channel, $thread]))
             ->assertStatus(Response::HTTP_NO_CONTENT);
 
         $this->assertDatabaseMissing('threads', ['id' => $thread->id]);

@@ -58,7 +58,8 @@ class ThreadsController extends Controller
             'body' => request('body'),
         ]);
 
-        return redirect($thread->path())
+        return redirect()
+            ->route('threads.show', [request('channel_id'), $thread])
             ->with('flash', 'Your thread has been published!');
     }
 
@@ -101,7 +102,7 @@ class ThreadsController extends Controller
             return response([], Response::HTTP_NO_CONTENT);
         }
 
-        return redirect('/threads');
+        return redirect()->route('threads');
     }
 
     /**
