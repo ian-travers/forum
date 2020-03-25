@@ -90,6 +90,27 @@ class CreateThreadsTest extends TestCase
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
+    /** @test */
+    function thread_requires_a_unique_slug()
+    {
+        $this->withoutExceptionHandling();
+
+        /** @var User $user */
+        $user = create(User::class);
+        $user->markEmailAsVerified();
+
+        $this->signIn($user);
+
+        /** @var Thread $thread */
+        $thread = create(Thread::class, ['title' => 'Foo Title', 'slug' => 'foo-title']);
+
+        $this->assertEquals($thread->fresh()->slug, 'foo-title');
+
+        $this->post(route('threads', $thread->toArray()));
+
+        $this->assertTrue(Thread::whereSlug('foo-title-2')->exists());
+    }
+
     protected function publishThread($overrides = [])
     {
         /** @var User $user */
