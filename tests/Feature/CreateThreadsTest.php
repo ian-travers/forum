@@ -33,7 +33,8 @@ class CreateThreadsTest extends TestCase
     /** @test */
     function new_user_must_first_confirm_their_email_before_creating_threads()
     {
-        $this->signIn();
+        $user = factory(User::class)->states('unverified')->create();
+        $this->signIn($user);
 
         $thread = make(Thread::class);
 
@@ -47,11 +48,7 @@ class CreateThreadsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        /** @var User $user */
-        $user = create(User::class);
-        $user->markEmailAsVerified();
-
-        $this->signIn($user);
+        $this->signIn();
 
         /** @var Thread $thread */
         $thread = make(Thread::class);
@@ -95,11 +92,7 @@ class CreateThreadsTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        /** @var User $user */
-        $user = create(User::class);
-        $user->markEmailAsVerified();
-
-        $this->signIn($user);
+        $this->signIn();
 
         /** @var Thread $thread */
         $thread = create(Thread::class, ['title' => 'Foo Title', 'slug' => 'foo-title']);
@@ -113,11 +106,7 @@ class CreateThreadsTest extends TestCase
 
     protected function publishThread($overrides = [])
     {
-        /** @var User $user */
-        $user = create(User::class);
-        $user->markEmailAsVerified();
-
-        $this->signIn($user);
+        $this->signIn();
 
         $thread = make(Thread::class, $overrides);
 

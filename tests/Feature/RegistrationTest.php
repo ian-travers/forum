@@ -14,7 +14,7 @@ class RegistrationTest extends TestCase
     function register_a_new_users_not_verifies_their_email()
     {
         /** @var User $user */
-        $user = create(User::class);
+        $user = factory(User::class)->states('unverified')->create();
 
         $this->assertFalse($user->hasVerifiedEmail());
     }
