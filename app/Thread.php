@@ -156,11 +156,10 @@ class Thread extends Model
 
         if (is_numeric($max[-1])) {
             return preg_replace_callback('/\d+$/', function ($matches) {
-                return $matches[1] + 1;
+                return $matches[0] + 1;
             }, $max);
         }
 
         return "{$slug}-2";
     }
-
 }

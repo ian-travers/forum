@@ -33,6 +33,7 @@ class Trending
     {
         try {
             $redis = Redis::connect(config('database.redis.default.host'), config('database.redis.default.port'));
+
             return true;
         } catch (\Predis\Connection\ConnectionException $e) {
             return false;

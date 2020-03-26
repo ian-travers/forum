@@ -58,7 +58,7 @@ class ThreadsController extends Controller
         ]);
 
         return redirect()
-            ->route('threads.show', [request('channel_id'), $thread])
+            ->route('threads.show', [$thread->channel, $thread])
             ->with('flash', 'Your thread has been published!');
     }
 
