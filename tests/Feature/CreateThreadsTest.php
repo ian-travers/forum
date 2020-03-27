@@ -95,7 +95,7 @@ class CreateThreadsTest extends TestCase
         $this->signIn();
 
         /** @var Thread $thread */
-        $thread = create(Thread::class, ['title' => 'Foo Title', 'slug' => 'foo-title']);
+        $thread = create(Thread::class, ['title' => 'Foo Title']);
 
         $this->assertEquals($thread->fresh()->slug, 'foo-title');
 

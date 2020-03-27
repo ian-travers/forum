@@ -61,6 +61,10 @@ class Thread extends Model
         static::deleting(function (self $thread) {
             $thread->replies->each->delete();
         });
+
+        static::created(function (self $thread) {
+            $thread->update(['slug' => $thread->title]);
+        });
     }
 
     public function path(): string
