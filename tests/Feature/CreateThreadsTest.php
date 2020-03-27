@@ -101,9 +101,28 @@ class CreateThreadsTest extends TestCase
 
         $this->post(route('threads', $thread->toArray()));
 
-        $this->assertEquals(1, $thread->id);
-
         $this->assertTrue(Thread::whereSlug("foo-title-2")->exists());
+
+        $this->post(route('threads', $thread->toArray()));
+
+        $this->assertTrue(Thread::whereSlug("foo-title-3")->exists());
+    }
+
+    /** @test */
+    function thread_with_title_that_ands_in_a_number_should_generate_proper_slug()
+    {
+        $this->signIn();
+
+        /** @var Thread $thread */
+        $thread = create(Thread::class, ['title' => 'Title 22', 'slug' => 'title-22']);
+
+        $this->post(route('threads', $thread->toArray()));
+
+        $this->assertTrue(Thread::whereSlug("title-22-2")->exists());
+
+        $this->post(route('threads', $thread->toArray()));
+
+        $this->assertTrue(Thread::whereSlug("title-22-3")->exists());
     }
 
     protected function publishThread($overrides = [])
