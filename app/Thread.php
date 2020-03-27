@@ -18,6 +18,7 @@ use Str;
  * @property string $title
  * @property string $slug
  * @property string $body
+ * @property int $best_reply_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activity
@@ -33,6 +34,7 @@ use Str;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereBody($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereBestReply_id($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereChannelId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereId($value)
@@ -154,5 +156,10 @@ class Thread extends Model
         }
 
         $this->attributes['slug'] = $slug;
+    }
+
+    public function markBestReply(Reply $reply)
+    {
+        $this->update(['best_reply_id' => $reply->id]);
     }
 }
