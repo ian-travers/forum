@@ -148,11 +148,9 @@ class Thread extends Model
     public function setSlugAttribute($value)
     {
         $slug = Str::slug($value);
-        $original = $slug;
-        $count = 2;
 
         while (static::whereSlug($slug)->exists()) {
-            $slug = "$original-" . $count++;
+            $slug = "$slug-" . $this->id;
         }
 
         $this->attributes['slug'] = $slug;

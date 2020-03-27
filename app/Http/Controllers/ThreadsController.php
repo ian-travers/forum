@@ -37,7 +37,7 @@ class ThreadsController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|Response|\Illuminate\Routing\Redirector
      * @throws \Illuminate\Validation\ValidationException
      * @throws \Exception
      */
@@ -55,6 +55,10 @@ class ThreadsController extends Controller
             'title' => request('title'),
             'body' => request('body'),
         ]);
+
+        if (request()->wantsJson()) {
+            return response($thread, Response::HTTP_CREATED);
+        }
 
         return redirect()
             ->route('threads.show', [$thread->channel, $thread])

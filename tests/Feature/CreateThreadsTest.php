@@ -99,13 +99,10 @@ class CreateThreadsTest extends TestCase
 
         $this->assertEquals($thread->fresh()->slug, 'foo-title');
 
-        $this->post(route('threads', $thread->toArray()));
+        $thread = $this->postJson(route('threads', $thread->toArray()))->json();
 
-        $this->assertTrue(Thread::whereSlug("foo-title-2")->exists());
-
-        $this->post(route('threads', $thread->toArray()));
-
-        $this->assertTrue(Thread::whereSlug("foo-title-3")->exists());
+        $this->assertEquals("foo-title-{$thread['id']}", $thread['slug']);
+        $this->assertTrue(Thread::whereSlug("foo-title-{$thread['id']}")->exists());
     }
 
     /** @test */
@@ -114,15 +111,12 @@ class CreateThreadsTest extends TestCase
         $this->signIn();
 
         /** @var Thread $thread */
-        $thread = create(Thread::class, ['title' => 'Title 22', 'slug' => 'title-22']);
+        $thread = create(Thread::class, ['title' => 'Title 22']);
 
-        $this->post(route('threads', $thread->toArray()));
+        $thread = $this->postJson(route('threads', $thread->toArray()))->json();
 
-        $this->assertTrue(Thread::whereSlug("title-22-2")->exists());
-
-        $this->post(route('threads', $thread->toArray()));
-
-        $this->assertTrue(Thread::whereSlug("title-22-3")->exists());
+        $this->assertEquals("title-22-{$thread['id']}", $thread['slug']);
+        $this->assertTrue(Thread::whereSlug("title-22-{$thread['id']}")->exists());
     }
 
     protected function publishThread($overrides = [])
