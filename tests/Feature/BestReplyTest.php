@@ -47,6 +47,20 @@ class BestReplyTest extends TestCase
             ->assertStatus(Response::HTTP_FORBIDDEN);
 
         $this->assertFalse($replies[1]->fresh()->isBest());
+    }
 
+    /** @test */
+    function if_best_reply_is_deleted_then_the_thread_sets_null_to_related_field()
+    {
+        $this->signIn();
+
+        /** @var Reply $reply */
+        $reply = create(Reply::class, ['user_id' => auth()->id()]);
+
+        $reply->thread->markBestReply($reply);
+
+        $this->deleteJson(route('replies.destroy', $reply));
+
+        $this->assertNull($reply->thread->fresh()->best_reply_id);
     }
 }
