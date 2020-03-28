@@ -3,7 +3,7 @@
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <div>
-                    <a :href="'/profile/' + data.owner.name" v-text="data.owner.name"></a>
+                    <a :href="'/profiles/' + data.owner.name" v-text="data.owner.name"></a>
                     said <span v-text="ago"></span>...
                 </div>
                 <div v-if="signedIn">
