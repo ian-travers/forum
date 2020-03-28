@@ -37,7 +37,7 @@
                     <button
                         class="btn btn-sm btn-success"
                         @click="markBestReply"
-                        v-show="! isBest"
+                        v-if="authorize('updateThread', reply.thread)"
                     >Best Reply</button>
                 </div>
             </div>
