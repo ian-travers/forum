@@ -52,6 +52,8 @@ class BestReplyTest extends TestCase
     /** @test */
     function if_best_reply_is_deleted_then_the_thread_sets_null_to_related_field()
     {
+//        \DB::statement('PRAGMA foreign_keys=on');
+
         $this->signIn();
 
         /** @var Reply $reply */
