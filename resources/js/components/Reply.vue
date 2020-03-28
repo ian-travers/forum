@@ -1,5 +1,5 @@
 <template>
-    <div :id="'reply-' + id" class="card mt-3">
+    <div :id="'reply-' + id" class="card mt-3" :class="isBest ? 'bg-best' : ''">
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <div>
@@ -25,9 +25,23 @@
             <div v-else v-html="body"></div>
         </div>
 
-        <div class="card-footer" v-if="canUpdate">
-            <button class="btn btn-sm btn-primary" @click="editing = true">Edit</button>
-            <button class="btn btn-sm btn-danger" @click="destroy">Delete</button>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div v-if="canUpdate">
+                        <button class="btn btn-sm btn-primary" @click="editing = true">Edit</button>
+                        <button class="btn btn-sm btn-danger" @click="destroy">Delete</button>
+                    </div>
+                </div>
+                <div>
+                    <button
+                        class="btn btn-sm btn-success"
+                        @click="markBestReply"
+                        v-show="! isBest"
+                    >Best Reply</button>
+                </div>
+            </div>
+
         </div>
 
     </div>
@@ -46,7 +60,8 @@
             return {
                 editing: false,
                 id: this.data.id,
-                body: this.data.body
+                body: this.data.body,
+                isBest: false
             };
         },
 
@@ -87,7 +102,17 @@
                 axios.delete('/replies/' + this.data.id);
 
                 this.$emit('deleted', this.data.id);
+            },
+
+            markBestReply() {
+                this.isBest = true;
             }
         }
     }
 </script>
+
+<style scoped>
+    .bg-best {
+        background-color: #e2f7eb !important;
+    }
+</style>
