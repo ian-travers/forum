@@ -3,11 +3,11 @@
         <div class="card-header">
             <div class="d-flex justify-content-between">
                 <div>
-                    <a :href="'/profiles/' + data.owner.name" v-text="data.owner.name"></a>
+                    <a :href="'/profiles/' + reply.owner.name" v-text="reply.owner.name"></a>
                     said <span v-text="ago"></span>...
                 </div>
                 <div v-if="signedIn">
-                    <favorite :reply="data"></favorite>
+                    <favorite :reply="reply"></favorite>
                 </div>
             </div>
         </div>
@@ -37,7 +37,7 @@
                     <button
                         class="btn btn-sm btn-success"
                         @click="markBestReply"
-                        v-if="authorize('owns', reply.thread)"
+                        v-if="authorize('owns', reply.thread) && !isBest"
                     >Best Reply</button>
                 </div>
             </div>
@@ -52,23 +52,22 @@
     import moment from "moment";
 
     export default {
-        props: ['data'],
+        props: ['reply'],
 
         components: {Favorite},
 
         data() {
             return {
                 editing: false,
-                id: this.data.id,
-                body: this.data.body,
-                isBest: this.data.isBest,
-                reply: this.data,
+                id: this.reply.id,
+                body: this.reply.body,
+                isBest: this.reply.isBest,
             };
         },
 
         computed: {
             ago() {
-                return moment(this.data.created_at).fromNow();
+                return moment(this.reply.created_at).fromNow();
             }
         },
 
@@ -80,9 +79,9 @@
 
         methods: {
             update() {
-                axios.patch('/replies/' + this.data.id, {body: this.body})
+                axios.patch('/replies/' + this.id, {body: this.body})
                     .then(response => {
-                        this.data.body = this.body;
+                        this.reply.body = this.body;
                         flash('Updated!');
                     })
                     .catch(error => {
@@ -94,19 +93,19 @@
 
             cancel() {
                 this.editing = false;
-                this.body = this.data.body;
+                this.body = this.reply.body;
             },
 
             destroy() {
-                axios.delete('/replies/' + this.data.id);
+                axios.delete('/replies/' + this.id);
 
-                this.$emit('deleted', this.data.id);
+                this.$emit('deleted', this.id);
             },
 
             markBestReply() {
-                axios.post('/replies/' + this.reply.id + '/best');
+                axios.post('/replies/' + this.id + '/best');
 
-                window.events.$emit('best-reply-selected', this.reply.id);
+                window.events.$emit('best-reply-selected', this.id);
             }
         }
     }
