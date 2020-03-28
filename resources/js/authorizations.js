@@ -7,6 +7,10 @@ let authorizations = {
 
     updateThread(thread) {
         return thread.user_id === user.id;
+    },
+
+    owns(model, prop = 'user_id') {
+        return model[prop] === user.id;
     }
 };
 

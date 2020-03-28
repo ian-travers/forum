@@ -28,7 +28,7 @@
         <div class="card-footer">
             <div class="d-flex justify-content-between">
                 <div>
-                    <div v-if="authorize('updateReply', reply)">
+                    <div v-if="authorize('owns', reply)">
                         <button class="btn btn-sm btn-primary" @click="editing = true">Edit</button>
                         <button class="btn btn-sm btn-danger" @click="destroy">Delete</button>
                     </div>
@@ -37,7 +37,7 @@
                     <button
                         class="btn btn-sm btn-success"
                         @click="markBestReply"
-                        v-if="authorize('updateThread', reply.thread)"
+                        v-if="authorize('owns', reply.thread)"
                     >Best Reply</button>
                 </div>
             </div>
