@@ -25,7 +25,7 @@
             <div v-else v-html="body"></div>
         </div>
 
-        <div class="card-footer">
+        <div class="card-footer" v-if="authorize('owns', reply) || authorize('owns', reply.thread)">
             <div class="d-flex justify-content-between">
                 <div>
                     <div v-if="authorize('owns', reply)">
