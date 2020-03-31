@@ -16,9 +16,10 @@ use Str;
  * @property-read int|null $replies_count
  * @property int $visits
  * @property string $title
- * @property string $slug
+ * @property string|null $slug
  * @property string $body
- * @property int $best_reply_id
+ * @property int|null $best_reply_id
+ * @property bool $locked
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Activity[] $activity
@@ -33,11 +34,12 @@ use Str;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereBestReplyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereBody($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereBestReply_id($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereChannelId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereLocked($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereRepliesCount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Thread whereTitle($value)

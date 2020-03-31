@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read int|null $activity_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Favorite[] $favorites
  * @property-read int|null $favorites_count
+ * @property-read mixed $is_best
  * @property-read mixed $is_favorited
  * @property-read \App\User $owner
  * @property-read \App\Thread $thread
