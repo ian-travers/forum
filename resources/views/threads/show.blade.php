@@ -3,7 +3,7 @@
 @php /* @var App\Thread $thread */ @endphp
 
 @section('content')
-    <thread-view :data-replies-count="{{ $thread->replies_count }}" :data-locked="'{{ $thread->locked }}'" inline-template>
+    <thread-view :thread="{{ $thread }}" inline-template>
         <div class="container">
             <div class="row">
                 <div class="col-md-9">
@@ -54,7 +54,7 @@
                                 <button
                                     class="btn btn-secondary"
                                     v-if="authorize('isAdmin') && !locked"
-                                    @click="locked = true"
+                                    @click="locks"
                                 >
                                     Lock
                                 </button>
