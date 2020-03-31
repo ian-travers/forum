@@ -50,7 +50,14 @@
                                 <a href="{{ route('profile', $thread->creator) }}">{{ $thread->creator->name }}</a>, and currently has <span v-text="repliesCount"></span> {{ \Illuminate\Support\Str::plural('comment', $thread->replies_count) }}.
                             </p>
                             <p>
-                                <subscribe-button :initial-active="{{ $thread->isSubscribedTo ? 'true' : 'false' }}"></subscribe-button>
+                                <subscribe-button :initial-active="{{ $thread->isSubscribedTo ? 'true' : 'false' }}" v-if="signedIn"></subscribe-button>
+                                <button
+                                    class="btn btn-secondary"
+                                    v-if="authorize('isAdmin') && !locked"
+                                    @click="locked = true"
+                                >
+                                    Lock
+                                </button>
                             </p>
                         </div>
                     </div>
