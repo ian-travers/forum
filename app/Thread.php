@@ -110,6 +110,11 @@ class Thread extends Model
         $this->update(['locked' => true]);
     }
 
+    public function unlocks()
+    {
+        $this->update(['locked' => false]);
+    }
+
     public function scopeFilter($query, ThreadFilters $filters)
     {
         return $filters->apply($query);

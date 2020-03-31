@@ -53,11 +53,10 @@
                                 <subscribe-button :initial-active="{{ $thread->isSubscribedTo ? 'true' : 'false' }}" v-if="signedIn"></subscribe-button>
                                 <button
                                     class="btn btn-secondary"
-                                    v-if="authorize('isAdmin') && !locked"
-                                    @click="locks"
-                                >
-                                    Lock
-                                </button>
+                                    v-if="authorize('isAdmin')"
+                                    v-text="locked ? 'Unlock' : 'Lock'"
+                                    @click="toggleLock"
+                                ></button>
                             </p>
                         </div>
                     </div>
