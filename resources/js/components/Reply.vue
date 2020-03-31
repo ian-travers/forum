@@ -25,25 +25,25 @@
             <div v-else v-html="body"></div>
         </div>
 
-        <div class="card-footer" v-if="authorize('owns', reply) || authorize('owns', reply.thread)">
-            <div class="d-flex justify-content-between">
-                <div>
-                    <div v-if="authorize('owns', reply)">
-                        <button class="btn btn-sm btn-primary" @click="editing = true">Edit</button>
-                        <button class="btn btn-sm btn-danger" @click="destroy">Delete</button>
+        <div v-if="signedIn">
+            <div class="card-footer" v-if="authorize('owns', reply) || authorize('owns', reply.thread)">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div v-if="authorize('owns', reply)">
+                            <button class="btn btn-sm btn-primary" @click="editing = true">Edit</button>
+                            <button class="btn btn-sm btn-danger" @click="destroy">Delete</button>
+                        </div>
+                    </div>
+                    <div>
+                        <button
+                            class="btn btn-sm btn-success"
+                            @click="markBestReply"
+                            v-if="authorize('owns', reply.thread) && !isBest"
+                        >Best Reply</button>
                     </div>
                 </div>
-                <div>
-                    <button
-                        class="btn btn-sm btn-success"
-                        @click="markBestReply"
-                        v-if="authorize('owns', reply.thread) && !isBest"
-                    >Best Reply</button>
-                </div>
             </div>
-
         </div>
-
     </div>
 </template>
 
