@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreatePostRequest;
 use App\Reply;
 use App\Thread;
+use Illuminate\Http\Response;
 
 class RepliesController extends Controller
 {
@@ -26,6 +27,10 @@ class RepliesController extends Controller
      */
     public function store($channelId, Thread $thread, CreatePostRequest $request)
     {
+        if ($thread->locked) {
+            return response('Thread is locked', Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         return $thread->addReply([
             'body' => request('body'),
             'user_id' => auth()->id(),
