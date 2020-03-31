@@ -15,8 +15,6 @@ class LockThreadTest extends TestCase
     /** @test */
     function non_administrator_may_not_lock_threads()
     {
-        $this->withoutExceptionHandling();
-
         $this->signIn();
 
         /** @var Thread $thread */
