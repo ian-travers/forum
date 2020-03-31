@@ -22,3 +22,9 @@ $factory->state(User::class, 'unverified', function () {
         'email_verified_at' => null,
     ];
 });
+
+$factory->state(User::class, 'administrator', function () {
+    return [
+        'name' => 'Ian Travers',
+    ];
+});
