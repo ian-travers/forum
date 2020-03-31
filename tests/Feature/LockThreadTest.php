@@ -15,12 +15,14 @@ class LockThreadTest extends TestCase
     /** @test */
     function non_administrator_may_not_lock_threads()
     {
+        $this->withoutExceptionHandling();
+
         $this->signIn();
 
         /** @var Thread $thread */
         $thread = create(Thread::class);
 
-        $this->patch($thread->path(), [
+        $this->post(route('locked-threads.store', $thread), [
             'locked' => true,
         ])->assertStatus(Response::HTTP_FORBIDDEN);
 
@@ -35,9 +37,8 @@ class LockThreadTest extends TestCase
         /** @var Thread $thread */
         $thread = create(Thread::class);
 
-        $this->patch($thread->path(), [
-            'locked' => true,
-        ])->assertStatus(Response::HTTP_OK);
+        $this->post(route('locked-threads.store', $thread))
+            ->assertStatus(Response::HTTP_OK);
 
         $this->assertTrue($thread->fresh()->locked, 'Failed locks thread by Administrator');
     }
