@@ -15,6 +15,8 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css', 'build') }}" rel="stylesheet">
+
+    @yield('head')
 </head>
 <body>
 <div id="app">

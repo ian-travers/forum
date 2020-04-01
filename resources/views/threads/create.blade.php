@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('head')
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+@endsection
+
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -9,7 +13,7 @@
                         Create a New Thread
                     </div>
                     <div class="card-body">
-                        <form action="/threads" method="post">
+                        <form action="{{ route('threads.store') }}" method="post">
 
                             @csrf
                             <div class="form-group">
@@ -32,6 +36,9 @@
                                 <label for="body">Body</label>
                                 <textarea name="body" id="body" rows="7"
                                           class="form-control" required>{{ old('body') }}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.sitekey') }}"></div>
                             </div>
                             <button type="submit" class="btn btn-primary">Publish</button>
 
