@@ -1,21 +1,18 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Threads;
 
-use App\Activity;
 use App\Channel;
-use App\Reply;
 use App\Rules\Recaptcha;
 use App\Thread;
 use App\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Validation\ValidationException;
 use Tests\TestCase;
 
-class CreateThreadsTest extends TestCase
+class CreateTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     protected function setUp(): void
     {
@@ -76,79 +73,6 @@ class CreateThreadsTest extends TestCase
             ->assertStatus(Response::HTTP_OK)
             ->assertSee($thread->title)
             ->assertSee($thread->body);
-    }
-
-    /** @test */
-    function thread_requires_a_title_and_body_to_be_updated()
-    {
-        $this->withoutExceptionHandling();
-        $this->signIn();
-
-        /** @var Thread $thread */
-        $thread = create(Thread::class, ['user_id' => auth()->id()]);
-
-        $this->expectException(ValidationException::class);
-        $this->patch($thread->path(), [
-            'title' => 'New title',
-        ]);
-
-        $this->expectException(ValidationException::class);
-        $this->patch($thread->path(), [
-            'body' => 'New body',
-        ]);
-    }
-
-    /** @test */
-    function unauthorized_users_may_not_update_threads()
-    {
-        $this->signIn();
-
-        /** @var Thread $thread */
-        $thread = create(Thread::class, ['user_id' => create(User::class)->id]);
-
-        $this->patch($thread->path(), [
-            'title' => 'New title',
-            'body' => 'New body'
-        ])->assertStatus(Response::HTTP_FORBIDDEN);
-    }
-
-    /** @test */
-    function thread_can_be_updated_by_its_creator()
-    {
-        $this->signIn();
-
-        /** @var Thread $thread */
-        $thread = create(Thread::class, ['user_id' => auth()->id()]);
-
-        $this->patch($thread->path(), [
-            'title' => 'New title',
-            'body' => 'New body'
-        ]);
-
-        tap($thread->fresh(), function ($thread) {
-            $this->assertEquals('New title', $thread->title);
-            $this->assertEquals('New body', $thread->body);
-        });
-    }
-
-    /** @test */
-    function authorized_users_can_delete_threads()
-    {
-        $this->signIn();
-
-        /** @var Thread $thread */
-        $thread = create(Thread::class, ['user_id' => auth()->id()]);
-        /** @var Reply $reply */
-        $reply = create(Reply::class, ['thread_id' => $thread->id]);
-
-        $response = $this->json('delete', $thread->path());
-
-        $response->assertStatus(Response::HTTP_NO_CONTENT);
-
-        $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
-        $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
-
-        $this->assertEquals(0, Activity::count());
     }
 
     /** @test */
