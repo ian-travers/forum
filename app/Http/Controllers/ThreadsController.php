@@ -7,7 +7,6 @@ use App\Filters\ThreadFilters;
 use App\Rules\Recaptcha;
 use App\Thread;
 use App\Trending;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ThreadsController extends Controller
@@ -37,14 +36,13 @@ class ThreadsController extends Controller
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|Response|\Illuminate\Routing\Redirector
      * @throws \Illuminate\Validation\ValidationException
      * @throws \Exception
      */
-    public function store(Request $request, Recaptcha $recaptcha)
+    public function store(Recaptcha $recaptcha)
     {
-        $this->validate($request, [
+        request()->validate([
             'title' => 'required|spamfree',
             'body' => 'required|spamfree',
             'channel_id' => 'required|exists:channels,id',
