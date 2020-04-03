@@ -7,39 +7,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-9">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex align-items-baseline justify-content-between">
-                                <div>
-                                    <img
-                                        src="{{ $thread->creator->avatar_path }}"
-                                        alt="author_avatar"
-                                        width="25"
-                                        height="25"
-                                        class="rounded-circle mr-1"
-                                    >
-                                    <a href="{{ route('profile', $thread->creator) }}"
-                                       class="">{{ $thread->creator->name }} </a> posted:
-                                    {{ $thread->title }}
-                                </div>
 
-                                @can('update', $thread)
-                                    <form action="{{ $thread->path() }}" method="post">
-
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-link">Delete Thread</button>
-                                    </form>
-
-                                @endcan
-                            </div>
-
-                        </div>
-                        <div class="card-body">
-                            {{ $thread->body }}
-                        </div>
-                    </div>
-
+                    @include('threads._question')
                     <replies @added="repliesCount++" @removed="repliesCount--"></replies>
                 </div>
                 <div class="col-md-3">
@@ -47,10 +16,14 @@
                         <div class="card-body">
                             <p>
                                 This thread was published {{ $thread->created_at->diffForHumans() }} by
-                                <a href="{{ route('profile', $thread->creator) }}">{{ $thread->creator->name }}</a>, and currently has <span v-text="repliesCount"></span> {{ \Illuminate\Support\Str::plural('comment', $thread->replies_count) }}.
+                                <a href="{{ route('profile', $thread->creator) }}">{{ $thread->creator->name }}</a>, and
+                                currently has <span
+                                    v-text="repliesCount"></span> {{ \Illuminate\Support\Str::plural('comment', $thread->replies_count) }}
+                                .
                             </p>
                             <p>
-                                <subscribe-button :initial-active="{{ $thread->isSubscribedTo ? 'true' : 'false' }}" v-if="signedIn"></subscribe-button>
+                                <subscribe-button :initial-active="{{ $thread->isSubscribedTo ? 'true' : 'false' }}"
+                                                  v-if="signedIn"></subscribe-button>
                                 <button
                                     class="btn btn-secondary"
                                     v-if="authorize('isAdmin')"
