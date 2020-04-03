@@ -5,13 +5,13 @@ namespace Tests\Feature;
 use App\Reply;
 use App\Thread;
 use App\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class BestReplyTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     /** @test */
     function a_thread_creator_may_mark_any_reply_as_the_best()

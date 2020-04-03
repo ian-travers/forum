@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 
 use App\Reply;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class FavoritesTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     /** @test */
     function guest_can_not_favorite_anything()

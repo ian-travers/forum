@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Threads;
 
 use App\Thread;
 use App\Trending;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class TrendingThreadsTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     /**
      * @var Trending

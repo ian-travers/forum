@@ -1,16 +1,16 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Threads;
 
 use App\Thread;
 use App\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-class LockThreadTest extends TestCase
+class LockTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     /** @test */
     function non_administrator_may_not_lock_threads()

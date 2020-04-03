@@ -4,12 +4,12 @@ namespace Tests\Unit;
 
 use App\Channel;
 use App\Thread;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ChannelTest extends TestCase
 {
-    use DatabaseMigrations;
+    use RefreshDatabase;
 
     /** @test */
     function channel_consists_of_threads()
