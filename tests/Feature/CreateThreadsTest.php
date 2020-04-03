@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Activity;
 use App\Channel;
+use App\Reply;
 use App\Rules\Recaptcha;
 use App\Thread;
 use App\User;
@@ -73,6 +75,26 @@ class CreateThreadsTest extends TestCase
             ->assertStatus(Response::HTTP_OK)
             ->assertSee($thread->title)
             ->assertSee($thread->body);
+    }
+
+    /** @test */
+    function authorized_users_can_delete_threads()
+    {
+        $this->signIn();
+
+        /** @var Thread $thread */
+        $thread = create(Thread::class, ['user_id' => auth()->id()]);
+        /** @var Reply $reply */
+        $reply = create(Reply::class, ['thread_id' => $thread->id]);
+
+        $response = $this->json('delete', $thread->path());
+
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
+
+        $this->assertDatabaseMissing('threads', ['id' => $thread->id]);
+        $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+
+        $this->assertEquals(0, Activity::count());
     }
 
     /** @test */
