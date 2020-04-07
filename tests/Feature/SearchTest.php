@@ -13,6 +13,8 @@ class SearchTest extends TestCase
     /** @test */
     function user_can_search_threads()
     {
+        config(['scout.driver' => 'algolia']);
+
         $search = 'find me';
 
         create(Thread::class, [], 2);
@@ -21,5 +23,7 @@ class SearchTest extends TestCase
         $results = $this->getJson("/threads/search?q={$search}")->json();
 
         $this->assertCount(2, $results['data']);
+
+        Thread::latest()->take(4)->unsearchable();
     }
 }
