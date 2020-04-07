@@ -5,6 +5,7 @@ namespace App;
 use App\Events\ThreadReceiveNewReply;
 use App\Filters\ThreadFilters;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 use Str;
 
 /**
@@ -50,7 +51,7 @@ use Str;
  */
 class Thread extends Model
 {
-    use RecordsActivity;
+    use RecordsActivity, Searchable;
 
     protected $guarded = [];
 
