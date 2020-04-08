@@ -55,9 +55,11 @@
         grid-template-columns: 1fr 4fr;
         grid-gap: 1em;
     }
+
     .hit-title {
         margin-bottom: 0.5em;
     }
+
     .hit-body {
         color: #888;
         font-size: 0.8em;
