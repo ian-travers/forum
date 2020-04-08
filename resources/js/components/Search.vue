@@ -45,6 +45,16 @@
 </script>
 
 <style scoped>
+    .ais-Hits-list {
+        margin-top: 0;
+        margin-bottom: 1em;
+    }
+
+    .ais-InstantSearch {
+        display: grid;
+        grid-template-columns: 1fr 4fr;
+        grid-gap: 1em;
+    }
     .hit-title {
         margin-bottom: 0.5em;
     }
