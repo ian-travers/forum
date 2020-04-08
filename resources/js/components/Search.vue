@@ -1,9 +1,18 @@
 <template>
     <div class="container">
         <p class="display-3 text-center" @click="checkJS">Search Test</p>
-
         <ais-instant-search :search-client="searchClient" index-name="threads">
-            <ais-search-box class="mb-3"/>
+            <div>
+                <ais-search-box />
+                <div class="card mt-2">
+                    <div class="card-header">
+                        Channels
+                    </div>
+                    <div class="card-body">
+                        <ais-refinement-list attribute="channel.name" />
+                    </div>
+                </div>
+            </div>
             <ais-hits>
                 <div slot="item" slot-scope="{ item }">
                     <div class="hit-title">
