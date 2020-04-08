@@ -25,6 +25,7 @@
         "sass": "^1.26.3",
         "sass-loader": "^8.0.2",
         "vue": "^2.5.17",
+        "vue-instantsearch": "^2.7.0",
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {}
