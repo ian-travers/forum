@@ -7,7 +7,9 @@
             <ais-hits>
                 <div slot="item" slot-scope="{ item }">
                     <div class="hit-title">
-                        <ais-highlight attribute="title" :hit="item"></ais-highlight>
+                        <a :href="item.path">
+                            <ais-highlight attribute="title" :hit="item"></ais-highlight>
+                        </a>
                     </div>
                     <div class="hit-body">
                         <ais-highlight attribute="body" :hit="item"></ais-highlight>
