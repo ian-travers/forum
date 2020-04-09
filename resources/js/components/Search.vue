@@ -1,34 +1,33 @@
 <template>
-    <div class="container">
-        <p class="display-3 text-center" @click="checkJS">Search Test</p>
-        <ais-instant-search :search-client="searchClient" index-name="threads">
-            <div>
-                <ais-search-box />
-                <div class="card mt-2">
-                    <div class="card-header">
-                        Channels
-                    </div>
-                    <div class="card-body">
-                        <ais-refinement-list attribute="channel.name" />
-                    </div>
+    <ais-instant-search :search-client="searchClient" index-name="threads">
+        <div>
+            <ais-configure :hitsPerPage="8"/>
+            <ais-search-box/>
+            <div class="card mt-2">
+                <div class="card-header">
+                    Channels
+                </div>
+                <div class="card-body">
+                    <ais-clear-refinements class="mb-3">
+                        <span slot="resetLabel">Clear All</span>
+                    </ais-clear-refinements>
+                    <ais-refinement-list attribute="channel.name"/>
                 </div>
             </div>
-            <ais-hits>
-                <div slot="item" slot-scope="{ item }">
-                    <div class="hit-title">
-                        <a :href="item.path">
-                            <ais-highlight attribute="title" :hit="item"></ais-highlight>
-                        </a>
-                    </div>
-                    <div class="hit-body">
-                        <ais-highlight attribute="body" :hit="item"></ais-highlight>
-                    </div>
+        </div>
+        <ais-hits>
+            <div slot="item" slot-scope="{ item }">
+                <div class="hit-title">
+                    <a :href="item.path">
+                        <ais-highlight attribute="title" :hit="item"></ais-highlight>
+                    </a>
                 </div>
-
-
-            </ais-hits>
-        </ais-instant-search>
-    </div>
+                <div class="hit-body">
+                    <ais-highlight attribute="body" :hit="item"></ais-highlight>
+                </div>
+            </div>
+        </ais-hits>
+    </ais-instant-search>
 </template>
 
 <script>
@@ -36,21 +35,19 @@
     import 'instantsearch.css/themes/algolia-min.css';
 
     export default {
-        props: ['algolia_app_id', 'algolia_key'],
+        props: ['algolia_app_id', 'algolia_key', 'query'],
 
         data() {
             return {
                 searchClient: algoliasearch(
                     this.algolia_app_id,
-                    this.algolia_key
+                    this.algolia_key,
                 ),
             };
         },
 
-        methods: {
-            checkJS() {
-                flash(this.algolia_app_id + ' | ' + this.algolia_key);
-            }
+        created() {
+            console.log('tut');
         }
     };
 </script>
