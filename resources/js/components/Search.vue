@@ -1,7 +1,7 @@
 <template>
-    <ais-instant-search :search-client="searchClient" index-name="threads">
+    <ais-instant-search :query="query" :search-client="searchClient" index-name="threads">
         <div>
-            <ais-configure :hitsPerPage="8"/>
+            <ais-configure :query="query" :hitsPerPage="8"/>
             <ais-search-box/>
             <div class="card mt-2">
                 <div class="card-header">

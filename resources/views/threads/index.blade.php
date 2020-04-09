@@ -24,7 +24,7 @@
                         <form method="get" action="{{ route('threads.search') }}">
                             <div class="input-group">
                                 <input type="text" class="form-control" value="{{ request('q') }}" name="q"
-                                       placeholder="Search for something..." autofocus>
+                                       placeholder="Search for something...">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" type="submit">
                                         <i class="fas fa-search"></i>
