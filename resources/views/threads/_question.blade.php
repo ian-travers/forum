@@ -1,12 +1,13 @@
 @php /* @var App\Thread $thread */ @endphp
 
+{{-- Editing the question --}}
 <div class="card" v-if="editing">
     <div class="card-header">
         <input class="form-control" id="title" name="title" type="text" v-model="form.title">
     </div>
     <div class="card-body">
         <div class="form-group">
-            <textarea class="form-control" rows="8" v-model="form.body"></textarea>
+            <wysiwyg v-model="form.body" :value="form.body"></wysiwyg>
         </div>
 
     </div>
@@ -16,6 +17,7 @@
     </div>
 </div>
 
+{{-- Viewing the question --}}
 <div class="card" v-else>
     <div class="card-header">
         <div>
@@ -32,7 +34,7 @@
             <span v-text="title"></span>
         </div>
     </div>
-    <div class="card-body" v-text="body"></div>
+    <div class="card-body" v-html="body"></div>
     <div class="card-footer" v-if="authorize('owns', thread)">
         <div class="d-flex align-items-baseline justify-content-between">
             <button class="btn btn-primary btn-sm" @click="editing = true">Edit</button>

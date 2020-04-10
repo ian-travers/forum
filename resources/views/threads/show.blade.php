@@ -2,6 +2,10 @@
 
 @php /* @var App\Thread $thread */ @endphp
 
+@section('head')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.2.1/trix.css" integrity="sha256-yebzx8LjuetQ3l4hhQ5eNaOxVLgqaY1y8JcrXuJrAOg=" crossorigin="anonymous" />
+@endsection
+
 @section('content')
     <thread-view :thread="{{ $thread }}" inline-template>
         <div class="container">
