@@ -2,14 +2,7 @@
     <div>
         <div v-if="signedIn">
             <div class="form-group mt-3">
-                <textarea
-                    name="body"
-                    id="body"
-                    class="form-control"
-                    rows="5"
-                    placeholder="Have something to say?"
-                    v-model="body"
-                    required></textarea>
+                <wysiwyg name="body" v-model="body" placeholder="Have something to say?" ref="trix"></wysiwyg>
             </div>
 
             <button type="submit" class="btn btn-primary" @click="addReply">Post</button>
@@ -52,6 +45,9 @@
                         this.body = '';
 
                         flash('You reply has been posted.');
+
+                        // Clear child trix-editor value
+                        this.$refs.trix.$refs.trix.value = '';
 
                         this.$emit('created', response.data);
                     })
