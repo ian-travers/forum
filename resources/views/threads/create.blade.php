@@ -35,10 +35,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="body">Body</label>
-
                                 <wysiwyg name="body"></wysiwyg>
-{{--                                <textarea name="body" id="body" rows="7"--}}
-{{--                                          class="form-control" required>{{ old('body') }}</textarea>--}}
                             </div>
                             <div class="form-group">
                                 <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.sitekey') }}"></div>
