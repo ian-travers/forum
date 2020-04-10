@@ -2,7 +2,7 @@
     <div>
         <div v-if="signedIn">
             <div class="form-group mt-3">
-                <wysiwyg name="body" v-model="body" placeholder="Have something to say?" ref="trix"></wysiwyg>
+                <wysiwyg name="body" v-model="body" placeholder="Have something to say?" :shouldClear="completed"></wysiwyg>
             </div>
 
             <button type="submit" class="btn btn-primary" @click="addReply">Post</button>
@@ -21,6 +21,7 @@
         data() {
             return {
                 body: '',
+                completed: false
             }
         },
 
@@ -43,11 +44,9 @@
                 axios.post(location.pathname + '/replies', {body: this.body})
                     .then(response => {
                         this.body = '';
+                        this.completed = true;
 
                         flash('You reply has been posted.');
-
-                        // Clear child trix-editor value
-                        this.$refs.trix.$refs.trix.value = '';
 
                         this.$emit('created', response.data);
                     })
